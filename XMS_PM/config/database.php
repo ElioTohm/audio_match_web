@@ -46,6 +46,18 @@ return [
 
     'connections' => [
 
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => 'mongo',
+            'port'     => 27017,
+            'database' => 'database',
+            'username' => '',
+            'password' => '',
+            'options'  => [
+                'database' => '',
+            ]
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', 'localhost'),
@@ -60,17 +72,7 @@ return [
             'engine' => null,
         ],
 
-        'mongodb' => [
-        'driver'   => 'mongodb',
-        'host'     => 'mongo',
-        'port'     => 27017,
-        'database' => 'database',
-        'username' => '',
-        'password' => '',
-        'options'  => [
-            'database' => '',
-        ]
-    ],
+        
 
 
     ],
