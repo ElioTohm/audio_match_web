@@ -15,6 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('match', 'APIController@clientUpload');
+
+Route::post('fingerprint', 'APIController@serverUpload');
+
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::group(['middleware' => ['auth']], function()
+{	
+	Route::get('/home', 'HomeController@index');
+});

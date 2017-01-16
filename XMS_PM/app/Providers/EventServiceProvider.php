@@ -13,8 +13,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\ClientUpload' => [
+            'App\Listeners\EventListener_Match',
+        ],
+        
+        'App\Events\ServerUpload' => [
+            'App\Listeners\EventListener_Fingerprint',
         ],
     ];
 
