@@ -31,7 +31,7 @@ class EventListener_Match
         $client = new Client();
         $response = $client->request('POST', 'http://httpbin.org/post', [
             'form_params' => [
-                    'records' => '$clientupload->request'
+                    'records' => $clientupload->request
                 ]
             ]);
 
