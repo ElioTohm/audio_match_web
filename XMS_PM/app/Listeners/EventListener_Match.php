@@ -29,19 +29,29 @@ class EventListener_Match
      */
     public function handle(ClientUpload $clientupload)
     {
+        //sends post request to python server with names of files in an array
         $client = new Client();
-        $response = $client->request('POST', 'http://127.0.0.3:8000/matching/match/', [
-            'form_params' => [
-                    'records' => $clientupload->request
-                ]
+        $response = $client->request('POST', 'http://10.0.2.15:8000/matching/match/', [
+               'json' => [
+                    'records' => 
+                        $clientupload->request
+               ]
             ]);
-        //save the response to mongo
-
-        // $record = new Record;
-        // $record->user_id = 12;
-        // $record->save();
-        
-        return $response->getBody();
+        // //save the response to mongo
+        $result = json_decode($response->getBody(), true);
+        foreach ($result as $key => $value) {
+            $record = new Record;
+            $record->timestamp = $value['timestamp'];
+            $record->client_id = $value['client_id'];
+            $record->confidence = $value['confidence'];
+            $record->file_sha1 = $value['file_sha1'];
+            $record->offset_seconds = $value['offset_seconds'];
+            $record->channel_id = $value['channel_id'];
+            $record->match_time = $value['match_time'];
+            $record->offset = $value['offset'];
+            $record->server_record_id = $value['record_id'];
+            $record->save();
+        }
     
     }
 }

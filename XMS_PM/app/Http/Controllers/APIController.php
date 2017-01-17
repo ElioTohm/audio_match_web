@@ -15,8 +15,18 @@ class APIController extends Controller
 {
     public function clientUpload (Request $request)
 	{
-		if ($request->hasFile('client_record') && $request->file('client_record')->isValid()) {
-            return event(new ClientUpload($request->file('client_record')->getClientOriginalName()));
+		// takes client_record[] as an array
+		if ($request->hasFile('client_record')) {
+			$filename = array();
+	        $files = $request->file('client_record');
+
+	        // loop in each file and push it in an array
+		    foreach($files as $file){
+	    		array_push($filename, $file->getClientOriginalName());	
+		    }
+
+		    // return the names in an array to the listener
+            return event(new ClientUpload($filename));
         }
 	}
 
