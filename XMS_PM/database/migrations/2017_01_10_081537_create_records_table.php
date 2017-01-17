@@ -23,6 +23,23 @@ class CreateRecordsTable extends Migration
         ->table('records', function (Blueprint $collection) 
         {
             $collection->index('timestamp');
+
+            $collection->integer('client_id');
+
+            $collection->integer('confidence');
+
+            $collection->string('file_sha1');
+
+            $collection->float('offset_seconds');
+            
+            $collection->integer('channel_id');
+            
+            $collection->float('match_time');
+            
+            $collection->integer('offset');
+            
+            $collection->integer('server_record_id');
+
         });
     }
 
@@ -34,7 +51,7 @@ class CreateRecordsTable extends Migration
     public function down()
     {
         Schema::connection($this->connection)
-        ->table('actions', function (Blueprint $collection) 
+        ->table('records', function (Blueprint $collection) 
         {
             $collection->drop();
         });

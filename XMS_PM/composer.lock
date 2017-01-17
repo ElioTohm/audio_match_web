@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c9f89201390b56ade8c00055bc909e97",
-    "content-hash": "d12828d988c939d12404f66d128f5d38",
+    "hash": "be5a64210cdff0cdd5df394de643eb78",
+    "content-hash": "86c5d4e89de8d544c0478f3e9c921a16",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2233,6 +2233,45 @@
                 "environment"
             ],
             "time": "2016-09-01 10:05:43"
+        },
+        {
+            "name": "zjango/laracurl",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zjango/Laracurl.git",
+                "reference": "b3af1344e12df63a061d2c3692e745c2ed0735cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zjango/Laracurl/zipball/b3af1344e12df63a061d2c3692e745c2ed0735cd",
+                "reference": "b3af1344e12df63a061d2c3692e745c2ed0735cd",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/Zjango"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zjango",
+                    "email": "zjango@icloud.com"
+                }
+            ],
+            "description": "Laravel 5.0 Package Wrapper For Andreas Lutro's OOP cURL Class",
+            "keywords": [
+                "Laracurl",
+                "curl",
+                "framework",
+                "laravel"
+            ],
+            "time": "2015-05-15 01:52:23"
         }
     ],
     "packages-dev": [
@@ -3617,7 +3656,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "zjango/laracurl": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

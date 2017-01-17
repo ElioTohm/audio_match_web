@@ -30,6 +30,6 @@ class EventListener_Fingerprint
         $client = new Client();
         $response = $client->post('http://127.0.0.3:8000/matching/fingerprint/');
         
-        return $response;
+        return $response->getStatusCode();
     }
 }

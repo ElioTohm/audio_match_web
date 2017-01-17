@@ -7,6 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use App\Record;
 
 class EventListener_Match
 {
@@ -34,7 +35,13 @@ class EventListener_Match
                     'records' => $clientupload->request
                 ]
             ]);
+        //save the response to mongo
 
-        return $response;
+        // $record = new Record;
+        // $record->user_id = 12;
+        // $record->save();
+        
+        return $response->getBody();
+    
     }
 }
