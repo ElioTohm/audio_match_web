@@ -28,7 +28,16 @@ class EventListener_Fingerprint
     public function handle(ServerUpload $event)
     {
         $client = new Client();
-        $response = $client->post('http://10.0.2.15:8000/matching/fingerprint/');
+        // You can add auth headers to every request of a client
+        // $client->setDefaultOption('auth', array('elio', '123123'));
+        
+        $response = $client->request('POST', 'http://10.0.2.15:8000/matching/fingerprint/',
+            [
+                'auth' => [
+                    'elio', 
+                    '201092elio'
+            ],
+            ]);
         
         return $response->getStatusCode();
     }
