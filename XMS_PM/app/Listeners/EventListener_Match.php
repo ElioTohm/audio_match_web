@@ -44,25 +44,20 @@ class EventListener_Match
             ]);
         // //save the response to mongo
         $result = json_decode($response->getBody(), true);
-        if(sizeof($result) > 1) {
-            foreach ($result as $key => $value) {
-                $record = new Record;
-                $record->timestamp = $value['timestamp'];
-                $record->client_id = $value['client_id'];
-                $record->confidence = $value['confidence'];
-                $record->file_sha1 = $value['file_sha1'];
-                $record->offset_seconds = $value['offset_seconds'];
-                $record->channel_id = $value['channel_id'];
-                $record->match_time = $value['match_time'];
-                $record->offset = $value['offset'];
-                $record->server_record_id = $value['record_id'];
-                $record->save();
-            }
-            
-            return $response->getStatusCode();    
-        } else {
-            return 500;
+        foreach ($result as $key => $value) {
+            $record = new Record;
+            $record->timestamp = $value['timestamp'];
+            $record->client_id = $value['client_id'];
+            $record->confidence = $value['confidence'];
+            $record->file_sha1 = $value['file_sha1'];
+            $record->offset_seconds = $value['offset_seconds'];
+            $record->channel_id = $value['channel_id'];
+            $record->match_time = $value['match_time'];
+            $record->offset = $value['offset'];
+            $record->server_record_id = $value['record_id'];
+            $record->save();
         }
-        
+            
+        return $response->getStatusCode();            
     }
 }

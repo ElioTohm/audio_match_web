@@ -51,10 +51,10 @@ return [
             'host'     => 'mongo',
             'port'     => 27017,
             'database' => 'database',
-            'username' => '',
-            'password' => '',
+            'username' => 'xmsmatch',
+            'password' => 'xmsmatch',
             'options'  => [
-                'database' => '',
+                'database' => 'database',
             ]
         ],
 

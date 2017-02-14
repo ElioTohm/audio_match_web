@@ -10,7 +10,10 @@ use App\Events\ClientUpload;
 
 use App\Events\ServerUpload;
 
-
+/*
+ * Controller used as an API for the client and the server to upload
+ * their files to be matched/fingerprinted by the Python framework
+ */
 class APIController extends Controller
 {
     public function clientUpload (Request $request)
@@ -22,7 +25,13 @@ class APIController extends Controller
 
 	        // loop in each file and push it in an array
 		    foreach($files as $file){
-	    		array_push($filename, $file->getClientOriginalName());	
+
+		    	// push the name of the multiple files uploaded
+	    		array_push($filename, $file->getClientOriginalName());
+				
+				// each file uploaded will be moved to the client_records dir   		
+	    		$client_record_name = $file->getClientOriginalName();
+	    		$file->move(public_path('client_records'), $client_record_name);
 		    }
 
 		    // return the names in an array to the listener
@@ -32,6 +41,7 @@ class APIController extends Controller
 
 	public function serverUpload (Request $request)
 	{
+ 		//fire event
 		return event(new ServerUpload($request));
 	}
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Record;
 
 class HomeController extends Controller
 {
@@ -25,5 +26,11 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function getData()
+    {
+        $records = Record::where('confidence', '>', 10)->get();
+        return $records;
     }
 }
