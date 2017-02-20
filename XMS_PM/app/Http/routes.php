@@ -24,5 +24,7 @@ Route::auth();
 Route::group(['middleware' => ['auth']], function()
 {	
 	Route::get('/home', 'HomeController@index');
-	Route::get('/getdata', 'HomeController@getData');
+	Route::post('/homegraph' , 'HomeController@getData');
+	Route::get('/graphs', 'GraphController@index');
+	Route::get('/getdata', 'GraphController@getData');
 });

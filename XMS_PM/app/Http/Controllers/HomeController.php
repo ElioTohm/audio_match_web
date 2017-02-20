@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+
 use Illuminate\Http\Request;
+
 use App\Record;
 
 class HomeController extends Controller
@@ -28,9 +30,14 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function getData()
+
+    public function getData(Request $request)
     {
-        $records = Record::where('confidence', '>', 10)->get();
+        $time = time();
+        $data = json_decode($request->getContent(),true);
+        $records = Record::whereBetween('timestamp', [$time - 24*60*60 , $time] )
+                            ->where('confidence', '>', 900)
+                            ->get();
         return $records;
     }
 }

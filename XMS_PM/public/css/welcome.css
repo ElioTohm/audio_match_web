@@ -1,13 +1,29 @@
-body {
+.parallax1 { 
     /* The image used */
-    background-image: url('/images/img_parallax1.jpg');
+    background-image: url("/images/img_parallax1.jpg");
 
-    /* Full height */
-    height: 100%; 
-    
+    /* Set a specific height */
+    height: 100vh; 
+
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+.navbar {
+    margin-bottom: 0;
+}
+.caption {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+}
+.caption span {
+	background-color: rgba(0,0,0,0.5);
+	padding-right: 12px;
+	padding-left: 12px;
 }
