@@ -12,6 +12,6 @@
 	    </div>
 	</div>	
 </div>
-
+<script src="{{url('/js/lodash.min.js')}}"></script>
 <script src="{{url('/js/graph.js')}}"></script>
 @endsection

@@ -1,37 +1,37 @@
-var chart; // global
+// global
+var chart;
+
+//keps track of previous info for linechart
+var previousinfo; 
+
+//request data from mongo
 function requestData() {
     $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         url: '/getdata',
+        type:'POST',
         success: function(point) {
-           var info = point.map(function(a) 
-            {
-                return a.channel_name;
-            });
-            // add the point
-            var hist = {};
-            info.map( function (a) { if (a in hist) hist[a] ++; else hist[a] = 1; } );
-            var value = $.map(hist, function(value, index) {
-                            return value;
-                        });
-            
-            console.log(point);
-            console.log(info);
-            console.log(hist);
+            //on success count distinct channel_name
+            var channelCount = _.countBy(point, 'channel_name');
 
+            //transform object to array
             multiArray = [];
-            for(var key in hist) { multiArray.push([ key, hist[key] ]); }
+            for(var key in channelCount) { 
+                multiArray.push([ key, channelCount[key] ]); 
+            }
 
-            console.log(multiArray);
-
-            // add the point
+            // add array to series data
             chart.series[0].setData(multiArray, true);
             
             // call it again after one second
-            setTimeout(requestData, 1000);    
+            setTimeout(requestData, 10000);    
         },
-        cache: false
     });
 }
+
+// draw chart
 chart = new Highcharts.Chart({
     credits: {
         enabled: false
@@ -40,11 +40,6 @@ chart = new Highcharts.Chart({
         renderTo: 'container',
         events: {
             load: requestData
-        },
-        options3d: {
-            enabled: true,
-            alpha: 45,
-            beta: 0
         }
     },
     title: {
@@ -62,19 +57,16 @@ chart = new Highcharts.Chart({
             showInLegend: true
         }
     },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
     series: [{
         type: 'pie',
         name: 'Records',
         data: [],
-        center: [100, 80],
-        size: 100,
         showInLegend: false,
         dataLabels: {
             enabled: false
-        }
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
     }],
-
 });

@@ -23,8 +23,11 @@ Route::auth();
 
 Route::group(['middleware' => ['auth']], function()
 {	
+	//home route
 	Route::get('/home', 'HomeController@index');
 	Route::post('/homegraph' , 'HomeController@getData');
+
+	//graph route
 	Route::get('/graphs', 'GraphController@index');
-	Route::get('/getdata', 'GraphController@getData');
+	Route::post('/getdata', 'GraphController@getData');
 });
