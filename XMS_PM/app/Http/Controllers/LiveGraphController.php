@@ -8,11 +8,11 @@ use App\Http\Requests;
 
 use App\Record;
 
-class GraphController extends Controller
+class LiveGraphController extends Controller
 {
     public function index()
     {
-        return view('graph.graph');
+        return view('livegraph.livegraph');
     }
 
     public function getData()

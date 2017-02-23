@@ -14,5 +14,5 @@
 </div>
 
 <script src="{{url('/js/lodash.min.js')}}"></script>
-<script src="{{url('/js/graph.js')}}"></script>
+<script src="{{url('/js/livegraph.js')}}"></script>
 @endsection

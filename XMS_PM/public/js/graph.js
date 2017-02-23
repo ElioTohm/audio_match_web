@@ -2,7 +2,7 @@
 var chart;
 
 //keps track of previous info for linechart
-var previouslineinfo; 
+var previouslineinfo = []; 
 
 //request data from mongo
 function requestData() {
@@ -22,32 +22,40 @@ function requestData() {
                 channelCountArray.push([ key, channelCount[key] ]); 
             }
 
+            // filter info to get channel watched by time within time interval
             var watchedbytime = _(point).groupBy('channel_name')
                                         .map(function(item, itemId) {
                                             var obj = {};
                                             obj[itemId] = _.countBy(item, 'timestamp');
                                             return obj;
                                         }).valueOf();
-
+            
+            //check difference between the current data and the previous call
+            var difference = _.differenceBy(watchedbytime, previouslineinfo, _.isEqual);
+            
             for(var key in watchedbytime) {
-                charttimestampinfo = [];
-                for(var channel in watchedbytime[key]) {
-                    for(var timetags in watchedbytime[key][channel]) { 
-                        charttimestampinfo.push([ timetags, watchedbytime[key][channel][timetags] ]); 
+
+                //if we don't have previousdata or we have a difference => add series to all series
+                if(previouslineinfo.length == 0 || difference.length != 0) {
+                    charttimestampinfo = [];
+                    for(var channel in difference[key]) {
+                        for(var timetags in difference[key][channel]) { 
+                            charttimestampinfo.push([ timetags, difference[key][channel][timetags] ]); 
+                        }
+                        chart.addSeries({
+                            name: Object.keys(difference[key])[0],
+                            data: charttimestampinfo,
+                            type: 'spline',
+                        });
                     }
                 }
-                //TODO complete if statment to update if new channel is added
-                if(!true) {
-                    chart.addSeries({
-                        name: Object.keys(watchedbytime[key])[0],
-                        data: charttimestampinfo,
-                        type: 'spline',
-                    });
-                } else {
-                    chart.series[key + 1].setData(charttimestampinfo, true);
-                }
-                previouslineinfo = watchedbytime;
+                
+                //always update series data
+                chart.series[parseInt(key) + 1].setData(charttimestampinfo, true);    
             }
+
+            //save current fetched data
+            previouslineinfo = watchedbytime;
 
             // add array to series data
             chart.series[0].setData(channelCountArray, true);
@@ -99,15 +107,11 @@ chart = new Highcharts.Chart({
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
-        center: [100, 80],
+        center: [15, 15],
         size: 100,
         showInLegend: false,
         dataLabels: {
             enabled: false
         }
-    },{
-        type: 'spline',
-        name: 'Average',
-        data: [[1,3], [2,2.67], [3,3], [4,6.33], [5,3.33]],
     }],
 });

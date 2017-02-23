@@ -60,11 +60,9 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
                 </ul>
+                <!--  -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/graphs') }}">Custom Graph</a></li>
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/Live') }}">Live Monitoring</a></li>
+                    <li><a href="{{ url('/livegraphs') }}">Live Monitoring</a></li>
                 </ul>
                 @endif
                 <!-- Right Side Of Navbar -->

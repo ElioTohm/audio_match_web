@@ -1,77 +1,95 @@
+// global
+var chart1h;
+var chart24h;
+
+//keps track of previous info for linechart
+var previouslineinfo1h = []; 
+var previouslineinfo24h = []; 
+
+//request data from mongo
 function requestData1h() {
-    var token = $('meta[name="csrf-token"]').attr('content');
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': token
-      }
-    });
     $.ajax({
-        type:'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         url: '/homegraph',
+        data: JSON.stringify({"timeinterval": 1}),
+        type:'POST',
         success: function(point) {
-           var info = point.map(function(a) 
-            {
-                return a.channel_name;
-            });
-            // add the point
-            var hist = {};
-            info.map( function (a) { if (a in hist) hist[a] ++; else hist[a] = 1; } );
-            var value = $.map(hist, function(value, index) {
-                            return value;
+
+            //on success count distinct channel_name
+            var channelCount = _.countBy(point, 'channel_name');
+            
+            //transform object to array
+            channelCountArray = [];
+            for(var key in channelCount) { 
+                channelCountArray.push([ key, channelCount[key] ]); 
+            }
+
+            // filter info to get channel watched by time within time interval
+            var watchedbytime = _(point).groupBy('channel_name')
+                                        .map(function(item, itemId) {
+                                            var obj = {};
+                                            obj[itemId] = _.countBy(item, 'timestamp');
+                                            return obj;
+                                        }).valueOf();
+            
+            //check difference between the current data and the previous call
+            var difference = _.differenceBy(watchedbytime, previouslineinfo1h, _.isEqual);
+            
+            for(var key in watchedbytime) {
+
+                //if we don't have previousdata or we have a difference => add series to all series
+                if(previouslineinfo1h.length == 0 || difference.length != 0) {
+                    charttimestampinfo = [];
+                    for(var channel in difference[key]) {
+                        for(var timetags in difference[key][channel]) { 
+                            charttimestampinfo.push([ timetags*1000, difference[key][channel][timetags] ]); 
+                        }
+                        chart1h.addSeries({
+                            name: Object.keys(difference[key])[0],
+                            data: charttimestampinfo,
+                            type: 'scatter',
+                            tooltip: {
+                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                            }
                         });
-            
-            console.log(point);
-            console.log(info);
-            console.log(hist);
+                    }
+                }
+                
+                //always update series data
+                chart1h.series[parseInt(key) + 1].setData(charttimestampinfo, true);    
+            }
 
-            multiArray = [];
-            for(var key in hist) { multiArray.push([ key, hist[key] ]); }
+            //save current fetched data
+            previouslineinfo1h = watchedbytime;
 
-            console.log(multiArray);
+            // add array to series data
+            chart1h.series[0].setData(channelCountArray, true);
 
-            // add the point
-            chart1h.series[0].setData(multiArray, true);
-            
             // call it again after one second
-            setTimeout(requestData1h, 1000);    
+            setTimeout(requestData1h, 5000);    
         },
-        error:function(data)
-        {
-            console.log(data['responseText']);
-        },
-        cache: false
     });
 }
-var chart1h = new Highcharts.Chart({
+
+// draw chart
+chart1h = new Highcharts.Chart({
     credits: {
         enabled: false
     },
     chart: {
         renderTo: 'graph1h',
+        zoomType: 'x',
         events: {
             load: requestData1h()
-        },
-        options3d: {
-            enabled: true,
-            alpha: 45,
-            beta: 0
         }
     },
     title: {
-        text: 'Info for the past hour'
+        text: 'Channel watched in the pasted 1h'
     },
     xAxis: {
-        type: 'datetime',
-        tickPixelInterval: 150,
-        maxZoom: 20 * 1000
-    },
-    yAxis: {
-        minPadding: 0.2,
-        maxPadding: 0.2,
-        title: {
-            text: 'Value',
-            margin: 80
-        }
+            type: 'datetime'
     },
     plotOptions: {
         pie: {
@@ -85,91 +103,110 @@ var chart1h = new Highcharts.Chart({
             showInLegend: true
         }
     },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
     series: [{
         type: 'pie',
         name: 'Records',
-        data: []
+        data: [],
+        showInLegend: false,
+        dataLabels: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        center: [15, 15],
+        size: 100,
+        showInLegend: false,
+        dataLabels: {
+            enabled: false
+        }
     }],
 });
 
 
+//request data from mongo
 function requestData24h() {
-    var token = $('meta[name="csrf-token"]').attr('content');
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': token
-      }
-    });
     $.ajax({
-        type:'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: JSON.stringify({"timeinterval": 24}),
         url: '/homegraph',
+        type:'POST',
         success: function(point) {
-           var info = point.map(function(a) 
-            {
-                return a.channel_name;
-            });
-            // add the point
-            var hist = {};
-            info.map( function (a) { if (a in hist) hist[a] ++; else hist[a] = 1; } );
-            var value = $.map(hist, function(value, index) {
-                            return value;
+            //on success count distinct channel_name
+            var channelCount = _.countBy(point, 'channel_name');
+            
+            //transform object to array
+            channelCountArray = [];
+            for(var key in channelCount) { 
+                channelCountArray.push([ key, channelCount[key] ]); 
+            }
+
+            // filter info to get channel watched by time within time interval
+            var watchedbytime = _(point).groupBy('channel_name')
+                                        .map(function(item, itemId) {
+                                            var obj = {};
+                                            obj[itemId] = _.countBy(item, 'timestamp');
+                                            return obj;
+                                        }).valueOf();
+            
+            //check difference between the current data and the previous call
+            var difference = _.differenceBy(watchedbytime, previouslineinfo24h, _.isEqual);
+            
+            for(var key in watchedbytime) {
+
+                //if we don't have previousdata or we have a difference => add series to all series
+                if(previouslineinfo24h.length == 0 || difference.length != 0) {
+                    charttimestampinfo = [];
+                    for(var channel in difference[key]) {
+                        for(var timetags in difference[key][channel]) { 
+                            charttimestampinfo.push([ timetags*1000, difference[key][channel][timetags] ]); 
+                        }
+                        chart24h.addSeries({
+                            name: Object.keys(difference[key])[0],
+                            data: charttimestampinfo,
+                            type: 'scatter',
+                            tooltip: {
+                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                            }
                         });
-            
-            console.log(point);
-            console.log(info);
-            console.log(hist);
+                    }
+                }
+                
+                //always update series data
+                chart24h.series[parseInt(key) + 1].setData(charttimestampinfo, true);    
+            }
 
-            multiArray = [];
-            for(var key in hist) { multiArray.push([ key, hist[key] ]); }
+            //save current fetched data
+            previouslineinfo24h = watchedbytime;
 
-            console.log(multiArray);
+            // add array to series data
+            chart24h.series[0].setData(channelCountArray, true);
 
-            // add the point
-            chart24h.series[0].setData(multiArray, true);
-            
-            // call it again after one second
-            setTimeout(requestData24h, 1000);    
+            // call it again after one secondsss
+            setTimeout(requestData24h, 60*60*1000);    
         },
-        error:function(data)
-        {
-            console.log(data['responseText']);
-        },
-        cache: false
     });
 }
-var chart24h = new Highcharts.Chart({
+
+// draw chart
+chart24h = new Highcharts.Chart({
     credits: {
         enabled: false
     },
     chart: {
         renderTo: 'graph24h',
+        zoomType: 'x',
         events: {
             load: requestData24h()
-        },
-        options3d: {
-            enabled: true,
-            alpha: 45,
-            beta: 0
         }
     },
     title: {
-        text: 'Info for the last 24h'
+        text: 'Channel watched in the past 24h'
     },
     xAxis: {
-        type: 'datetime',
-        tickPixelInterval: 150,
-        maxZoom: 20 * 1000
-    },
-    yAxis: {
-        minPadding: 0.2,
-        maxPadding: 0.2,
-        title: {
-            text: 'Value',
-            margin: 80
-        }
+            type: 'datetime'
     },
     plotOptions: {
         pie: {
@@ -183,12 +220,22 @@ var chart24h = new Highcharts.Chart({
             showInLegend: true
         }
     },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
     series: [{
         type: 'pie',
         name: 'Records',
-        data: []
+        data: [],
+        showInLegend: false,
+        dataLabels: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        center: [15, 15],
+        size: 100,
+        showInLegend: false,
+        dataLabels: {
+            enabled: false
+        }
     }],
 });

@@ -33,10 +33,12 @@ class HomeController extends Controller
 
     public function getData(Request $request)
     {
+        $data = json_decode($request->getContent(),true);
+
         $time = time();
         $data = json_decode($request->getContent(),true);
-        $records = Record::whereBetween('timestamp', [$time - 24*60*60 , $time] )
-                            ->where('confidence', '>', 900)
+        $records = Record::whereBetween('timestamp', [$time - $data['timeinterval']*60*60 , $time] )
+                            ->where('confidence', '>', 200)
                             ->get();
         return $records;
     }
