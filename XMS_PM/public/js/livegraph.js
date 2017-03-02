@@ -16,6 +16,7 @@ function requestData() {
             //on success count distinct channel_name
             var channelCount = _.countBy(point, 'channel_name');
             
+            var clients = _.groupBy(point, 'client_id');
             //transform object to array
             channelCountArray = [];
             for(var key in channelCount) { 
@@ -24,6 +25,23 @@ function requestData() {
 
             // add array to series data
             chart.series[0].setData(channelCountArray, true);
+
+            liveclientinfo = [];
+            
+            $('tbody').html('');
+
+            _.forEach(clients, function(client) {
+                var nowclient = client[client.length - 1];
+                console.log(nowclient['channel_name']);
+                $('tbody').append(
+                    '<tr>'+
+                        '<td>'+nowclient['client_id']+'</td>'+
+                        '<td>'+nowclient['channel_name']+'</td>'+
+                    '</tr>'
+                );
+            });
+            
+            
 
             // call it again after 10 second
             setTimeout(requestData, 10000);    

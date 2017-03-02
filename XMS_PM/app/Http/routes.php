@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/match', 'APIController@clientUpload');
-
-Route::post('/fingerprint', 'APIController@serverUpload');
-
 Route::auth();
 
 Route::group(['middleware' => ['auth']], function()

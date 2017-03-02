@@ -38,7 +38,7 @@ class HomeController extends Controller
         $time = time();
         $data = json_decode($request->getContent(),true);
         $records = Record::whereBetween('timestamp', [$time - $data['timeinterval']*60*60 , $time] )
-                            ->where('confidence', '>', 200)
+                            ->where('confidence', '>', 20)
                             ->get();
         return $records;
     }

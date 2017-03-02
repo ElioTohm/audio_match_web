@@ -8,6 +8,19 @@
 	            <div class="panel panel-default">
 	                <div id="container" style="width:100%; height:400px;"></div>
 	            </div>
+	            <div class="panel panel-default">
+					  <table class="table table-bordered">
+					    <thead>
+					      <tr>
+					        <th>client id</th>
+					        <th>channel watched</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      
+					    </tbody>
+					  </table>
+	            </div>
 	        </div>
 	    </div>
 	</div>	
