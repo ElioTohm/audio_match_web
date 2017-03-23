@@ -19,9 +19,13 @@ function requestData() {
                 if (value.timestamp = max ) {
                     return value.channel_name;
                 }
-            });            
+                
+            });
+            
             
             var clients = _.groupBy(point, 'client_id');
+
+            console.log(_.maxBy(point);
 
             //transform object to array
             channelCountArray = [];
@@ -38,6 +42,7 @@ function requestData() {
 
             _.forEach(clients, function(client) {
                 var nowclient = client[client.length - 1];
+                console.log(nowclient['channel_name']);
                 $('tbody').append(
                     '<tr>'+
                         '<td>'+nowclient['client_id']+'</td>'+
@@ -51,9 +56,6 @@ function requestData() {
             // call it again after 10 second
             setTimeout(requestData, 10000);    
         },
-        error: function (data){
-            console.log(data);
-        }
     });
 }
 

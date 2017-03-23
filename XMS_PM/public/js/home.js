@@ -18,6 +18,7 @@ function requestData24h() {
         type:'POST',
         success: function(point) {
             //on success count distinct channel_name
+
             var channelCount = _.countBy(point, 'channel_name');
             
             //transform object to array
@@ -33,6 +34,8 @@ function requestData24h() {
                                             obj[itemId] = _.countBy(item, 'timestamp');
                                             return obj;
                                         }).valueOf();
+
+            console.log(_.groupBy(point, 'channel_name'));
 
             //check difference between the current data and the previous call
             var difference = _.differenceBy(watchedbytime, previouslineinfo24h, _.isEqual);
@@ -66,16 +69,12 @@ function requestData24h() {
 
             // add array to series data
             chart24h.series[0].setData(channelCountArray, true);
-
             chart24h.hideLoading();
 
             // call it again after 1h
             setTimeout(requestData24h, 1200000);
  
         },
-        error: function (data) {
-            console.log(data);
-        }
     });
 }
 
