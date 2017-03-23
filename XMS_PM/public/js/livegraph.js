@@ -25,7 +25,7 @@ function requestData() {
             
             var clients = _.groupBy(point, 'client_id');
 
-            console.log(_.maxBy(point);
+            console.log(_.maxBy(point))
 
             //transform object to array
             channelCountArray = [];
