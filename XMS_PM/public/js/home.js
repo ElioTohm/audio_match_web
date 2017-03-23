@@ -76,7 +76,7 @@ function requestData24h() {
  
         },
         error: function (data) {
-            console.log(data);
+            console.log(data['responseText']);
         }
     });
 }

@@ -55,7 +55,7 @@ function requestData() {
             setTimeout(requestData, 10000);    
         },
         error: function (data) {
-            console.log(data);
+            console.log(data['responseText']);
         }
     });
 }
