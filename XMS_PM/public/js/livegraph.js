@@ -14,9 +14,15 @@ function requestData() {
         type:'POST',
         success: function(point) {
             //on success count distinct channel_name
-            var channelCount = _.countBy(point, 'channel_name');
+            var max = _.maxBy(point, 'timestamp');
+            var channelCount = _.countBy(point, function(value){
+                if (value.timestamp = max ) {
+                    return value.channel_name;
+                }
+            });            
             
             var clients = _.groupBy(point, 'client_id');
+
             //transform object to array
             channelCountArray = [];
             for(var key in channelCount) { 
@@ -32,7 +38,6 @@ function requestData() {
 
             _.forEach(clients, function(client) {
                 var nowclient = client[client.length - 1];
-                console.log(nowclient['channel_name']);
                 $('tbody').append(
                     '<tr>'+
                         '<td>'+nowclient['client_id']+'</td>'+
@@ -41,7 +46,7 @@ function requestData() {
                 );
             });
             
-            
+            chart.hideLoading();
 
             // call it again after 10 second
             setTimeout(requestData, 10000);    
@@ -96,3 +101,4 @@ chart = new Highcharts.Chart({
         },
     }],
 });
+chart.showLoading('Loading...');

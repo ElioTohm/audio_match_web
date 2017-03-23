@@ -8,6 +8,7 @@ var previouslineinfo24h = [];
 
 //request data from mongo
 function requestData24h() {
+
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -17,7 +18,6 @@ function requestData24h() {
         type:'POST',
         success: function(point) {
             //on success count distinct channel_name
-
             var channelCount = _.countBy(point, 'channel_name');
             
             //transform object to array
@@ -33,7 +33,7 @@ function requestData24h() {
                                             obj[itemId] = _.countBy(item, 'timestamp');
                                             return obj;
                                         }).valueOf();
-            console.log(watchedbytime);
+
             //check difference between the current data and the previous call
             var difference = _.differenceBy(watchedbytime, previouslineinfo24h, _.isEqual);
             
@@ -67,8 +67,10 @@ function requestData24h() {
             // add array to series data
             chart24h.series[0].setData(channelCountArray, true);
 
-            // call it again after 1 min
-            setTimeout(requestData, 60000);
+            chart24h.hideLoading();
+
+            // call it again after 1h
+            setTimeout(requestData24h, 1200000);
  
         },
     });
@@ -123,3 +125,4 @@ chart24h = new Highcharts.Chart({
         }
     }],
 });
+chart24h.showLoading('Loading...');
