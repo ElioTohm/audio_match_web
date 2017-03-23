@@ -35,7 +35,7 @@ function requestData24h() {
                                             return obj;
                                         }).valueOf();
 
-            console.log(_.groupBy(point, 'channel_name'));
+            console.log(point);
 
             //check difference between the current data and the previous call
             var difference = _.differenceBy(watchedbytime, previouslineinfo24h, _.isEqual);
