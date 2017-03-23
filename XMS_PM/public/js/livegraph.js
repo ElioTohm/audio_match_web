@@ -51,6 +51,9 @@ function requestData() {
             // call it again after 10 second
             setTimeout(requestData, 10000);    
         },
+        error: function (data){
+            console.log(data);
+        }
     });
 }
 
