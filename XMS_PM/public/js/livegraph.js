@@ -25,8 +25,6 @@ function requestData() {
             
             var clients = _.groupBy(point, 'client_id');
 
-            console.log(point)
-
             //transform object to array
             channelCountArray = [];
             for(var key in channelCount) { 
@@ -56,6 +54,9 @@ function requestData() {
             // call it again after 10 second
             setTimeout(requestData, 10000);    
         },
+        error: function (data) {
+            console.log(data);
+        }
     });
 }
 

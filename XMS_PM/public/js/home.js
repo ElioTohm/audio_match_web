@@ -75,6 +75,9 @@ function requestData24h() {
             setTimeout(requestData24h, 1200000);
  
         },
+        error: function (data) {
+            console.log(data);
+        }
     });
 }
 

@@ -18,7 +18,7 @@ class LiveGraphController extends Controller
     public function getData()
     {
     	$time = time();
-        $records = Record::whereBetween('timestamp', [$time - 5*60 , $time] )
+        $records = Record::where('timestamp', '>', $time - 5*60  )
                             ->where('confidence', '>', 20)
                             ->get();
         return $records;
