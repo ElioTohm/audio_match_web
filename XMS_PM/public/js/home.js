@@ -98,7 +98,7 @@ chart24h = new Highcharts.Chart({
         }
     },
     title: {
-        text: 'Channel watched in the past 24h'
+        text: 'Channels watched'
     },
     xAxis: {
             type: 'datetime'
