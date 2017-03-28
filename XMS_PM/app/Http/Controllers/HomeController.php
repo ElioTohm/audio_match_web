@@ -37,9 +37,7 @@ class HomeController extends Controller
 
         $time = time();
         $data = json_decode($request->getContent(),true);
-        $records = Record::where('timestamp', '>' , $time - $data['timeinterval']*60*60)
-                            ->where('confidence', '>', 20)
-                            ->get();
+        $records = Record::where('channel_name', 'exists', true)->get();
         return $records;
     }
 }

@@ -18,7 +18,11 @@ function requestData24h() {
         type:'POST',
         success: function(point) {
             //on success count distinct channel_name
-
+            _.each(point, function(a){
+                if(a.confidence < 50 ){
+                    a.channel_name = 'Other';
+                }
+            });
             var channelCount = _.countBy(point, 'channel_name');
             
             //transform object to array
