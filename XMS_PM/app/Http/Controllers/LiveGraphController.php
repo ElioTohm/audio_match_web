@@ -19,7 +19,7 @@ class LiveGraphController extends Controller
     {
     	$time = time();
         $records = Record::where('timestamp', '>', $time - 5*60  )
-                            ->where('channel_name', 'exists', true)
+                            ->where('confidence', '>', 5)
                             ->get();
         return $records;
     }

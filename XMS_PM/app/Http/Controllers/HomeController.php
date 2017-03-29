@@ -37,7 +37,7 @@ class HomeController extends Controller
 
         $time = time();
         $data = json_decode($request->getContent(),true);
-        $records = Record::where('channel_name', 'exists', true)->get();
+        $records = Record::where('confidence', '>', 5)->get();
         return $records;
     }
 }
