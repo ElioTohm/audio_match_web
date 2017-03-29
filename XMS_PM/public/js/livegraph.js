@@ -65,37 +65,37 @@ function requestData() {
                 
                 var client_name = nowclient['client_id'];
                 switch(nowclient['client_id']) {
-                    case 1:
+                    case '1':
                         client_name = '1- Johny';
                         break;
-                    case 4:
+                    case '4':
                         client_name = '4- Elio';
                         break;
-                    case 5:
+                    case '5':
                         client_name = '5- unknown';
                         break;
-                    case 6:
+                    case '6':
                         client_name = '6- Fady house';
                         break;
-                    case 7:
+                    case '7':
                         client_name = '7- unknown';
                         break;
-                    case 8:
+                    case '8':
                         client_name = '8- Fady office';
                         break;
-                    case 9:
+                    case '9':
                         client_name = '9- Tony';
                         break;
-                    case 10:
+                    case '10':
                         client_name = '10- unknown';
                         break;
-                    case 11:
+                    case '11':
                         client_name = '11- unknown';
                         break;
-                    case 12:
+                    case '12':
                         client_name = '12- unknown';
                         break;
-                    case 13:
+                    case '13':
                         client_name = '13- XMS';
                         break;                            
                 }
