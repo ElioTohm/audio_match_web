@@ -48,11 +48,11 @@ return [
 
         'mongodb' => [
             'driver'   => 'mongodb',
-            'host'     => 'mongo',
+            'host'     => 'localhost',
             'port'     => 27017,
             'database' => 'database',
-            'username' => 'xmsmatch',
-            'password' => 'xmsmatch',
+            'username' => '',
+            'password' => '',
             'options'  => [
                 'database' => 'database',
             ]
