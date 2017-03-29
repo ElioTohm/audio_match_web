@@ -32,7 +32,23 @@ function requestData() {
             //transform object to array
             channelCountArray = [];
             for(var key in channelCount) { 
-                channelCountArray.push([ key, channelCount[key] ]); 
+                if (key == 'LBCI') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#25e200'});
+                } else if (key == 'MTV') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#e20000'});
+                } else if (key == 'OTV') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#faaa00'});
+                } else if (key == 'FUTURE') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#0090ed'});
+                } else if (key == 'MANAR') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#faf500'});
+                } else if (key == 'ALJADEED') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#000000'});
+                } else if (key == 'TL') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#d1d1bd'});
+                } else if (key == 'NBN') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#a702b1'});
+                }  
             }
 
             // add array to series data

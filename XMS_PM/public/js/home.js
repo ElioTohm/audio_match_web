@@ -28,7 +28,23 @@ function requestData24h() {
             //transform object to array
             channelCountArray = [];
             for(var key in channelCount) { 
-                channelCountArray.push([ key, channelCount[key] ]); 
+                if (key == 'LBCI') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#25e200'});
+                } else if (key == 'MTV') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#e20000'});
+                } else if (key == 'OTV') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#faaa00'});
+                } else if (key == 'FUTURE') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#0090ed'});
+                } else if (key == 'MANAR') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#faf500'});
+                } else if (key == 'ALJADEED') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#000000'});
+                } else if (key == 'TL') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#d1d1bd'});
+                } else if (key == 'NBN') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#a702b1'});
+                } 
             }
 
             // filter info to get channel watched by time within time interval
@@ -53,14 +69,87 @@ function requestData24h() {
                         for(var timetags in difference[key][channel]) { 
                             charttimestampinfo.push([ timetags*1000, difference[key][channel][timetags] ]); 
                         }
-                        chart24h.addSeries({
-                            name: Object.keys(difference[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            }
-                        });
+                        if (Object.keys(difference[key])[0] == 'LBCI') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#25e200'
+                            });    
+                        } else if (Object.keys(difference[key])[0] == 'MTV') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#e20000'
+                            });
+                        } else if (Object.keys(difference[key])[0] == 'OTV') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#faaa00'
+                            });
+                        } else if (Object.keys(difference[key])[0] == 'FUTURE') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#0090ed'
+                            });
+                        } else if (Object.keys(difference[key])[0] == 'MANAR') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#faf500'
+                            });
+                        } else if (Object.keys(difference[key])[0] == 'ALJADEED') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#000000'
+                            });
+                        } else if (Object.keys(difference[key])[0] == 'TL') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#d1d1bd'
+                            });
+                        } else if (Object.keys(difference[key])[0] == 'NBN') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#a702b1'
+                            });
+                        }  
                     }
                 }
                 
