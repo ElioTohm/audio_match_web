@@ -44,6 +44,8 @@ function requestData24h() {
                     channelCountArray.push({name: key, y: channelCount[key], color: '#d1d1bd'});
                 } else if (key == 'NBN') {
                     channelCountArray.push({name: key, y: channelCount[key], color: '#a702b1'});
+                } else if (key == 'Other') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#730028'});
                 } 
             }
 
@@ -149,7 +151,17 @@ function requestData24h() {
                                 },
                                 color: '#a702b1'
                             });
-                        }  
+                        } else if (Object.keys(difference[key])[0] == 'Other') {
+                            chart24h.addSeries({
+                                name: Object.keys(difference[key])[0],
+                                data: charttimestampinfo,
+                                type: 'column',
+                                tooltip: {
+                                    pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
+                                },
+                                color: '#730028'
+                            });
+                        }
                     }
                 }
                 

@@ -48,7 +48,9 @@ function requestData() {
                     channelCountArray.push({name: key, y: channelCount[key], color: '#d1d1bd'});
                 } else if (key == 'NBN') {
                     channelCountArray.push({name: key, y: channelCount[key], color: '#a702b1'});
-                }  
+                } else if (key == 'Other') {
+                    channelCountArray.push({name: key, y: channelCount[key], color: '#730028'});
+                }
             }
 
             // add array to series data
