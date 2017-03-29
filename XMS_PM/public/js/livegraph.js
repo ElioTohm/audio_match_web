@@ -15,7 +15,7 @@ function requestData() {
         success: function(point) {
             //on success count distinct channel_name
             _.each(point, function(a){
-                if(a.confidence < 50 && a.confidence > 5){
+                if(a.confidence < 50 ){
                     a.channel_name = 'Other';
                 }
             });
@@ -62,10 +62,46 @@ function requestData() {
 
             _.forEach(clients, function(client) {
                 var nowclient = client[client.length - 1];
-                console.log(nowclient['channel_name']);
-                $('tbody').append(
+                
+                var client_name = nowclient['client_id'];
+                switch(nowclient['client_id']) {
+                    case 1:
+                        client_name = '1- Johny';
+                        break;
+                    case 4:
+                        client_name = '4- Elio';
+                        break;
+                    case 5:
+                        client_name = '5- unknown';
+                        break;
+                    case 6:
+                        client_name = '6- Fady house';
+                        break;
+                    case 7:
+                        client_name = '7- unknown';
+                        break;
+                    case 8:
+                        client_name = '8- Fady office';
+                        break;
+                    case 9:
+                        client_name = '9- Tony';
+                        break;
+                    case 10:
+                        client_name = '10- unknown';
+                        break;
+                    case 11:
+                        client_name = '11- unknown';
+                        break;
+                    case 12:
+                        client_name = '12- unknown';
+                        break;
+                    case 13:
+                        client_name = '13- XMS';
+                        break;                            
+                }
+                $('tbody').append( 
                     '<tr>'+
-                        '<td>'+nowclient['client_id']+'</td>'+
+                        '<td>'+client_name+'</td>'+
                         '<td>'+nowclient['channel_name']+'</td>'+
                     '</tr>'
                 );

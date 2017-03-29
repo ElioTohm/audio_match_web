@@ -19,7 +19,7 @@ function requestData24h() {
         success: function(point) {
             //on success count distinct channel_name
             _.each(point, function(a){
-                if(a.confidence < 50 && a.confidence > 5){
+                if(a.confidence < 50 ){
                     a.channel_name = 'Other';
                 }
             });
