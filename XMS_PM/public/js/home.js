@@ -25,7 +25,6 @@ function requestData24h()
                     a.channel_name = 'Other';
                 }
             });
-            console.log(point);
             //transform object to array
             channelCountArray = drawpie(point);
 
@@ -147,9 +146,6 @@ function requestData24h()
 
             chart24h.hideLoading();
 
-            // call it again after 1h
-            setTimeout(requestData24h, 1200000);
- 
         },
         error: function (data) {
             console.log(data['responseText']);
@@ -256,7 +252,5 @@ function drawpie (currentpiedata)
             channelCountArray.push({name: key, y: piedata[key], color: '#730028'});
         }
     }      
-    console.log(currentpiedata);
-    console.log(channelCountArray);
     return channelCountArray;
 }
