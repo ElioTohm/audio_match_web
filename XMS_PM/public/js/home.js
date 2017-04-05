@@ -182,7 +182,7 @@ chart24h = new Highcharts.Chart({
         }
     },
     title: {
-        text: 'Channels watched'
+        text: 'Channels watched in the pasted week'
     },
     xAxis: {
             type: 'datetime'
