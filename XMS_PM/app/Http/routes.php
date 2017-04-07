@@ -27,5 +27,8 @@ Route::group(['middleware' => ['auth']], function()
 	Route::get('/livegraphs', 'LiveGraphController@index');
 	Route::post('/getdata', 'LiveGraphController@getData');
 
+	//map route
+	Route::get('/livemap', 'LiveMapController@index');
+	Route::get('/livemapgd', 'LiveMapController@getData');
 
 });

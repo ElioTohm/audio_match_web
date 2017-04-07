@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, maximum-scale=1, user-scalable=no">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -17,8 +17,10 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
-<!-- highchart -->
+
+    <!-- highchart -->
     <script src="http://code.highcharts.com/modules/offline-exporting.js"></script>
+    
 </head>
 
     <!-- Styles -->
@@ -60,9 +62,13 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
                 </ul>
-                <!--  -->
+                <!-- Live Monitoring -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/livegraphs') }}">Live Monitoring</a></li>
+                </ul>
+                <!-- Map Live Monitoring -->
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url('/livemap') }}">Live Map</a></li>
                 </ul>
                 @endif
                 <!-- Right Side Of Navbar -->

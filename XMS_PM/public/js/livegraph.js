@@ -13,6 +13,8 @@ function requestData() {
         url: '/getdata',
         type:'POST',
         success: function(point) {
+            console.log(point);
+            
             //on success count distinct channel_name
             _.each(point, function(a){
                 if(a.confidence < 50 ){
@@ -166,3 +168,4 @@ chart = new Highcharts.Chart({
     }],
 });
 chart.showLoading('Loading...');
+
