@@ -30,5 +30,6 @@ Route::group(['middleware' => ['auth']], function()
 	//map route
 	Route::get('/livemap', 'LiveMapController@index');
 	Route::get('/livemapgd', 'LiveMapController@getData');
+	Route::get('/livemapdr', 'LiveMapController@refreshData');
 
 });

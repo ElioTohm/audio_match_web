@@ -1,4 +1,4 @@
-var toggleableLayerIds = [];
+var toggleableLayerIds ;
 
 // initialize mapbox object  
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpb3RvaG1lIiwiYSI6ImNqMTRvY2MyMzAwMDYzMm1sYjBobzB5NzUifQ.ZhqOIRqCpCSAt3yv8TZqIw';
@@ -16,7 +16,6 @@ var map = new mapboxgl.Map({
 */
 map.on('load', function() {
     // Add a GeoJSON source containing place coordinates and information.
-    var places = [];
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -25,10 +24,12 @@ map.on('load', function() {
         url: '/livemapgd',
         type:'GET',
         success: function(point) {
-            places = point;
+            var places = point.clientdata;
+            console.log(places);
+            toggleableLayerIds = point.channelcolor;
             map.addSource("places", {
                 "type": "geojson",
-                "data": point
+                "data": places
             });    
             createChannelLayer (places) 
         }
@@ -36,7 +37,7 @@ map.on('load', function() {
     
     //update places dataSource every 5s
     window.setInterval(function() {
-        map.getSource('places').setData('/livemapgd');
+        map.getSource('places').setData('/livemapdr');
     }, 5000);
     
 });
@@ -49,7 +50,7 @@ var popup = new mapboxgl.Popup({
 
 //on hover show client details
 map.on('mousemove', function(e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: toggleableLayerIds });
+    var features = map.queryRenderedFeatures(e.point, { layers: ['LBCI','MTV','OTV','NBN','ALJADEED','TL','MANAR','FUTURE', 'Offline'] });
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
@@ -69,45 +70,42 @@ map.on('mousemove', function(e) {
 
 //add layer function
 function createChannelLayer (places) {
-    places.features.forEach(function(feature) {
-        var symbol = feature.properties['icon'];
-        var color = feature.properties['icon-color'];
-        var layerID = symbol;
-         
-        // Add a layer for this symbol type if it hasn't been added already.
-        if (!map.getLayer(layerID)) {
-            toggleableLayerIds.push(symbol);
+    for (var channel in toggleableLayerIds) {
+        if (!map.getLayer(channel)) {
             map.addLayer({
-                'id': layerID,
+                'id': channel,
                 'type': 'circle',
                 'source': 'places',
                 'layout': {
                     'visibility': 'visible'
                 },
                 'paint': {
-                    'circle-radius': 6,
-                    'circle-color': color
+                    'circle-radius': {
+                        stops:[[8, 2], [16, 6]]
+                    },
+                    'circle-color': toggleableLayerIds[channel]
                 },
-                "filter": ["==", "icon", symbol]
+                "filter": ["==", "icon", channel]
             });
-
+            
             // Add checkbox and label elements for the layer.
             var input = document.createElement('input');
             input.type = 'checkbox';
-            input.id = layerID;
+            input.id = channel;
             input.checked = true;
             filterGroup.appendChild(input);
 
             var label = document.createElement('label');
-            label.setAttribute('for', layerID);
-            label.textContent = symbol;
+            label.setAttribute('for', channel);
+            label.textContent = channel;
             filterGroup.appendChild(label);
 
             // When the checkbox changes, update the visibility of the layer.
-            input.addEventListener('change', function(e) {
-                map.setLayoutProperty(layerID, 'visibility',
+            document.getElementById(channel).addEventListener('change', function(e) {
+                var this_channel  = this.id;
+                map.setLayoutProperty(this_channel, 'visibility',
                     e.target.checked ? 'visible' : 'none');
             });
         }
-    });
+    }
 }
