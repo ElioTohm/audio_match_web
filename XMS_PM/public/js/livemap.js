@@ -93,11 +93,13 @@ function createChannelLayer (places) {
             input.type = 'checkbox';
             input.id = channel;
             input.checked = true;
+            input.style.backgroundColor = toggleableLayerIds;
             filterGroup.appendChild(input);
 
             var label = document.createElement('label');
             label.setAttribute('for', channel);
             label.textContent = channel;
+            label.style.backgroundColor = toggleableLayerIds[channel];
             filterGroup.appendChild(label);
 
             // When the checkbox changes, update the visibility of the layer.

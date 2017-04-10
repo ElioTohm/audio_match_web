@@ -43,8 +43,7 @@ body { margin:0; padding:0; }
     text-transform: capitalize;
 }
 
-.filter-group input[type=checkbox] + label:hover,
-.filter-group input[type=checkbox]:checked + label {
+.filter-group input[type=checkbox] + label:hover {
     background-color: #4ea0da;
 }
 
