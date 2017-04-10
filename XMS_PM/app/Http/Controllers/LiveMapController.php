@@ -65,7 +65,7 @@ class LiveMapController extends Controller
         $records = Record::where('timestamp', '>', time() - 5*60  )
                         ->where('confidence', '>', 10)
                         ->groupBy('client_id')
-                        ->get(['client_id', 'channel_name']);
+                        ->get(['client_id', 'channel_name','confidence']);
 
         $features = array();
 
@@ -76,7 +76,7 @@ class LiveMapController extends Controller
             
             array_push($clients_list, $clientid);
 
-if (sizeof($client) > 0){                   
+            if (sizeof($client) > 0){                      
                 if ($record->confidence > 50) {
                     array_push($features, array(
                             "type"=> "Feature",
