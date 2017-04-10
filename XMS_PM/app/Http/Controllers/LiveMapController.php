@@ -62,7 +62,8 @@ class LiveMapController extends Controller
         * IOW: get last watched channel by user
         */
         $clients_list = [];
-        $records = Record::where('confidence', '>', 5)
+        $records = Record::where('timestamp', '>', $time - 5*60  )
+                        ->where('confidence', '>', 5)
                         ->groupBy('client_id')
                         ->get(['client_id', 'channel_name']);
 

@@ -37,11 +37,10 @@ class HomeController extends Controller
 
         $time = time();
         $data = json_decode($request->getContent(),true);
-        // $records = Record::where('timestamp', '>', $time - 7*24*60*60  )
-        //                 ->where('confidence', '>', 5)
-        //                 ->get();
-        $records = Record::where('confidence', '>', 5)
+        $records = Record::where('timestamp', '>', $time - 7*24*60*60  )
+                        ->where('confidence', '>', 5)
                         ->get();
+        
         return $records;
     }
 }
