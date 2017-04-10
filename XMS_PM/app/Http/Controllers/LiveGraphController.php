@@ -19,7 +19,7 @@ class LiveGraphController extends Controller
     {
     	$time = time();
         $records = Record::where('timestamp', '>', $time - 5*60  )
-                        ->where('confidence', '>', 5)
+                        ->where('confidence', '>', 10)
                         ->groupBy('client_id')
                         ->get(['client_id', 'timestamp', 'channel_name']);
 

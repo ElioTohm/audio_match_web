@@ -70,6 +70,26 @@ map.on('mousemove', function(e) {
 
 //add layer function
 function createChannelLayer (places) {
+     map.addLayer({
+        'id': '3d-buildings',
+        'source': 'composite',
+        'source-layer': 'building',
+        'filter': ['==', 'extrude', 'true'],
+        'type': 'fill-extrusion',
+        'minzoom': 15,
+        'paint': {
+            'fill-extrusion-color': '#aaa',
+            'fill-extrusion-height': {
+                'type': 'identity',
+                'property': 'height'
+            },
+            'fill-extrusion-base': {
+                'type': 'identity',
+                'property': 'min_height'
+            },
+            'fill-extrusion-opacity': .6
+        }
+    });
     for (var channel in toggleableLayerIds) {
         if (!map.getLayer(channel)) {
             map.addLayer({

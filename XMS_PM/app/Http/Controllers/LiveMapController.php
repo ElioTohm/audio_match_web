@@ -13,7 +13,7 @@ use App\Client;
 class LiveMapController extends Controller
 {
     // Array for colors associated with each channel
-    private $COLOR_ARRAY = array('LBCI'=>'#25e200','MTV'=>'#e20000','OTV'=>'#faaa00','NBN'=>'#a702b1','ALJADEED'=>'#000000','TL'=>'#9370DB','MANAR'=>'#faf500','FUTURE'=>'#0090ed', 'Offline'=>'#808080');
+    private $COLOR_ARRAY = array('LBCI'=>'#25e200','MTV'=>'#e20000','OTV'=>'#faaa00','NBN'=>'#a702b1','ALJADEED'=>'#000000','TL'=>'#9370DB','MANAR'=>'#faf500','FUTURE'=>'#0090ed', 'Offline'=>'#808080', 'Other':'#730028');
                
 
     public function index()
@@ -63,7 +63,7 @@ class LiveMapController extends Controller
         */
         $clients_list = [];
         $records = Record::where('timestamp', '>', time() - 5*60  )
-                        ->where('confidence', '>', 5)
+                        ->where('confidence', '>', 10)
                         ->groupBy('client_id')
                         ->get(['client_id', 'channel_name']);
 
@@ -76,21 +76,37 @@ class LiveMapController extends Controller
             
             array_push($clients_list, $clientid);
 
-            if (sizeof($client) > 0){
-                array_push($features, array(
-                        "type"=> "Feature",
-                        "properties"=> array(
-                            "icon"=> $record->channel_name,
-                            "icon-color"=> $this->COLOR_ARRAY[$record->channel_name],
-                            "description"=> $client->name
-                        ),
-                        "geometry"=> array(
-                            "type"=> "Point",
-                            "coordinates"=> [$client->lon, $client->lat]
+if (sizeof($client) > 0){                   
+                if ($record->confidence > 50) {
+                    array_push($features, array(
+                            "type"=> "Feature",
+                            "properties"=> array(
+                                "icon"=> $record->channel_name,
+                                "icon-color"=> $this->COLOR_ARRAY[$record->channel_name],
+                                "description"=> $client->name
+                            ),
+                            "geometry"=> array(
+                                "type"=> "Point",
+                                "coordinates"=> [$client->lon, $client->lat]
+                            )
                         )
-                    )
-                );   
-            }    
+                    );    
+                } else {
+                    array_push($features, array(
+                            "type"=> "Feature",
+                            "properties"=> array(
+                                "icon"=> 'Other',
+                                "icon-color"=> $this->COLOR_ARRAY['Other'],
+                                "description"=> $client->name
+                            ),
+                            "geometry"=> array(
+                                "type"=> "Point",
+                                "coordinates"=> [$client->lon, $client->lat]
+                            )
+                        )
+                    );    
+                }    
+            }
         }
         
         $clients = Client::whereNotIn('_id', $clients_list)->get(['name','lon', 'lat']);
