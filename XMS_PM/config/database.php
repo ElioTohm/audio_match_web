@@ -48,11 +48,11 @@ return [
 
         'mongodb' => [
             'driver'   => 'mongodb',
-            'host'     => 'localhost',
+            'host'     => env('MONGO_HOST'),
             'port'     => 27017,
             'database' => 'database',
-            'username' => '',
-            'password' => '',
+            'username' => env('MONGO_USER'),
+            'password' => env('MONGO_PASS'),
             'options'  => [
                 'database' => 'database',
             ]

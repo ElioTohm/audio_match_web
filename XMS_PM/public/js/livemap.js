@@ -50,7 +50,7 @@ var popup = new mapboxgl.Popup({
 
 //on hover show client details
 map.on('mousemove', function(e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['LBCI','MTV','OTV','NBN','ALJADEED','TL','MANAR','FUTURE', 'Offline'] });
+    var features = map.queryRenderedFeatures(e.point, { layers: ['LBCI','MTV','OTV','NBN','ALJADEED','TL','MANAR','FUTURE', 'Offline', 'Other'] });
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
