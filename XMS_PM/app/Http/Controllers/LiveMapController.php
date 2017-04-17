@@ -59,7 +59,6 @@ class LiveMapController extends Controller
         */
         $clients_list = [];
         $records = Record::where('timestamp', '>', time() - 5*60  )
-                        ->where('confidence', '>', 10)
                         ->groupBy('client_id')
                         ->get(['client_id', 'channel_name','confidence']);
 
@@ -76,7 +75,7 @@ class LiveMapController extends Controller
             if (sizeof($client) > 0){                      
                 if ($record->confidence > 50) {
                     $color = Record::$COLOR_ARRAY[$record->channel_name];
-                } elseif ($record->confidence > 10 && $record->confidence <= 50 ) {
+                } elseif ($record->confidence >= 10 && $record->confidence < 50) {
                     $color = Record::$COLOR_ARRAY['Other'];
                 } elseif ($record->confidence <= 10 && $record->confidence > 0) {
                     $color = Record::$COLOR_ARRAY['Low volume/unclear'];
@@ -88,7 +87,7 @@ class LiveMapController extends Controller
                     array(
                         "type"=> "Feature",
                         "properties"=> array(
-                            "icon"=> 'Other',
+                            "icon"=> $record->channel_name,
                             "icon-color"=> $color,
                             "description"=> $client->name
                         ),
