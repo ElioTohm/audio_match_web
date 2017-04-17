@@ -50,7 +50,7 @@ return [
             'driver'   => 'mongodb',
             'host'     => env('MONGO_HOST'),
             'port'     => 27017,
-            'database' => 'database',
+            'database' => env('MONGO_DATABASE'),
             'username' => env('MONGO_USER'),
             'password' => env('MONGO_PASS'),
             'options'  => [

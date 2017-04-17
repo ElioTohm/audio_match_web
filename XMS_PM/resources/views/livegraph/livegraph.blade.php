@@ -32,14 +32,4 @@
 
 <script src="{{url('/js/lodash.min.js')}}"></script>
 <script src="{{url('/js/livegraph.js')}}"></script>
-<script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpb3RvaG1lIiwiYSI6ImNqMTRvY2MyMzAwMDYzMm1sYjBobzB5NzUifQ.ZhqOIRqCpCSAt3yv8TZqIw';
-	var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
-    center: [-74.50, 40], // starting position
-    zoom: 9 // starting zoom
-});
-
-</script>
 @endsection

@@ -161,6 +161,13 @@ return [
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
 
+        /*
+        * authentication with privileges 3rd party
+        */
+
+        //Mongo session
+        Jenssegers\Mongodb\Session\SessionServiceProvider::class,
+
     ],
 
     /*

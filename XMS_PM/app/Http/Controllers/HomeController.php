@@ -36,11 +36,11 @@ class HomeController extends Controller
         $data = json_decode($request->getContent(),true);
 
         $time = time();
-        $data = json_decode($request->getContent(),true);
         $records = Record::where('timestamp', '>', $time - 7*24*60*60  )
                         ->where('confidence', '>', 10)
-                        ->get();
-        
+                        ->get(['channel_name','timestamp','confidence']);
+
         return $records;
     }
+
 }

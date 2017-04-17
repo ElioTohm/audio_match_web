@@ -12,10 +12,6 @@ use App\Client;
 
 class LiveMapController extends Controller
 {
-    // Array for colors associated with each channel
-    private $COLOR_ARRAY = array('LBCI'=>'#25e200','MTV'=>'#e20000','OTV'=>'#faaa00','NBN'=>'#a702b1','ALJADEED'=>'#000000','TL'=>'#9370DB','MANAR'=>'#faf500','FUTURE'=>'#0090ed', 'Offline'=>'#808080', 'Other'=>'#730028');
-               
-
     public function index()
     {
         return view('map.livemap');
@@ -28,7 +24,7 @@ class LiveMapController extends Controller
     {
         //return json object $result 
         $result = array(
-            "channelcolor" => $this->COLOR_ARRAY,
+            "channelcolor" => Record::$COLOR_ARRAY,
             "clientdata" => array(
             "type" => "FeatureCollection",
             "features" => $this->mapBoxData()
@@ -75,37 +71,33 @@ class LiveMapController extends Controller
             $client = Client::find($clientid);
             
             array_push($clients_list, $clientid);
+            $color = '';
 
             if (sizeof($client) > 0){                      
                 if ($record->confidence > 50) {
-                    array_push($features, array(
-                            "type"=> "Feature",
-                            "properties"=> array(
-                                "icon"=> $record->channel_name,
-                                "icon-color"=> $this->COLOR_ARRAY[$record->channel_name],
-                                "description"=> $client->name
-                            ),
-                            "geometry"=> array(
-                                "type"=> "Point",
-                                "coordinates"=> [$client->lon, $client->lat]
-                            )
-                        )
-                    );    
+                    $color = Record::$COLOR_ARRAY[$record->channel_name];
+                } elseif ($record->confidence > 10 && $record->confidence <= 50 ) {
+                    $color = Record::$COLOR_ARRAY['Other'];
+                } elseif ($record->confidence <= 10 && $record->confidence > 0) {
+                    $color = Record::$COLOR_ARRAY['Low volume/unclear'];
                 } else {
-                    array_push($features, array(
-                            "type"=> "Feature",
-                            "properties"=> array(
-                                "icon"=> 'Other',
-                                "icon-color"=> $this->COLOR_ARRAY['Other'],
-                                "description"=> $client->name
-                            ),
-                            "geometry"=> array(
-                                "type"=> "Point",
-                                "coordinates"=> [$client->lon, $client->lat]
-                            )
+                    $color = Record::$COLOR_ARRAY['Muted'];
+                }
+
+                array_push($features, 
+                    array(
+                        "type"=> "Feature",
+                        "properties"=> array(
+                            "icon"=> 'Other',
+                            "icon-color"=> $color,
+                            "description"=> $client->name
+                        ),
+                        "geometry"=> array(
+                            "type"=> "Point",
+                            "coordinates"=> [$client->lon, $client->lat]
                         )
-                    );    
-                }    
+                    )
+                );    
             }
         }
         
@@ -116,7 +108,7 @@ class LiveMapController extends Controller
                         "type"=> "Feature",
                         "properties"=> array(
                             "icon"=> 'Offline',
-                            "icon-color"=> $this->COLOR_ARRAY['Offline'],
+                            "icon-color"=> Record::$COLOR_ARRAY['Offline'],
                             "description"=> $client->name
                         ),
                         "geometry"=> array(

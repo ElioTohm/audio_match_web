@@ -13,7 +13,6 @@
     </div>    
 </div>
 
-
 <link rel="stylesheet" type="text/css" href="{{url('/css/welcome.css')}}">
 
 @endsection
