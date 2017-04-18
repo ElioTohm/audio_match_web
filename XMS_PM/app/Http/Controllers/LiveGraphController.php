@@ -22,17 +22,17 @@ class LiveGraphController extends Controller
     	$time = time();
         $records = Record::where('timestamp', '>', $time - 5*60  )
                         ->groupBy('client_id')
-                        ->get(['client_id', 'timestamp', 'channel_name', 'confidence']);
+                        ->get(['client_id', 'timestamp', 'channel_name', 'confidence'])->sortBy('client_id');
 
         $clientresult = [];
         $result = [];
         foreach ($records as $record) {
-            // get client information from clients collection 
+            // get client information from clients collection
             $client = Client::find((int)$record->client_id);
             $color = '';
             $channel_name = '';
 
-            if (sizeof($client) > 0){                      
+            if (sizeof($client) > 0){
                 if ($record->confidence >= 50) {
                     $color = Record::$COLOR_ARRAY[$record->channel_name];
                     $channel_name = $record->channel_name;
@@ -53,9 +53,9 @@ class LiveGraphController extends Controller
                             "client_name" => $client->name,
                             "timestamp" => $record->timestamp
                         )
-                );    
+                );
             }
-        }        
+        }
 
         return array("channel_color" => Record::$COLOR_ARRAY, "clients"=>$clientresult);
     }

@@ -15,11 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::auth();
 
 Route::group(['middleware' => ['auth']], function()
-{	
+{
 	//home route
 	Route::get('/home', 'HomeController@index');
 	Route::post('/homegraph' , 'HomeController@getData');
@@ -32,5 +31,9 @@ Route::group(['middleware' => ['auth']], function()
 	Route::get('/livemap', 'LiveMapController@index');
 	Route::get('/livemapgd', 'LiveMapController@getData');
 	Route::get('/livemapdr', 'LiveMapController@refreshData');
+
+	//clients details
+	Route::get('/clientsdetails', 'ClientsDetailsController@index');
+    Route::post('/updateclient', 'ClientsDetailsController@updateClient');
 
 });

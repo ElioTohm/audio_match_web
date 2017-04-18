@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 use App\Record;
 
+use App\Role;
+use App\Permission;
+use App\User;
+
 class HomeController extends Controller
 {
     /**
@@ -42,5 +46,11 @@ class HomeController extends Controller
 
         return $records;
     }
+
+     public function test()
+    {
+        return view('home');
+    }
+
 
 }
