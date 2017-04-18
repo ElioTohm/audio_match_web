@@ -20,7 +20,7 @@
 
     <!-- highchart -->
     <script src="http://code.highcharts.com/modules/offline-exporting.js"></script>
-    
+
 </head>
 
     <!-- Styles -->
@@ -69,6 +69,9 @@
                 <!-- Map Live Monitoring -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/livemap') }}">Live Map</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url('/clientsdetails') }}">Clients Info</a></li>
                 </ul>
                 @endif
                 <!-- Right Side Of Navbar -->

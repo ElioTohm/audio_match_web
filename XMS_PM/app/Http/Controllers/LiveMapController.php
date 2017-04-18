@@ -14,7 +14,7 @@ class LiveMapController extends Controller
 {
     public function index()
     {
-        return view('map.livemap');
+        return view('livegraph.livemap');
     }
 
     /*
