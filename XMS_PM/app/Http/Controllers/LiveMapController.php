@@ -22,7 +22,7 @@ class LiveMapController extends Controller
     */
     public function getData()
     {
-        //return json object $result 
+        //return json object $result
         $result = array(
             "channelcolor" => Record::$COLOR_ARRAY,
             "clientdata" => array(
@@ -30,21 +30,21 @@ class LiveMapController extends Controller
             "features" => $this->mapBoxData()
             )
         );
-       	
+
         return $result;
     }
 
     /*
     * Refresh function for mapbox map
     */
-    public function refreshData () 
+    public function refreshData ()
     {
-        //return json object $result 
+        //return json object $result
         $result = array(
             "type" => "FeatureCollection",
             "features" => $this->mapBoxData()
         );
-        
+
         return $result;
     }
 
@@ -66,24 +66,22 @@ class LiveMapController extends Controller
 
         foreach ($records as $record) {
             // get client information from clients collection
-            $clientid = (int)$record->client_id; 
+            $clientid = (int)$record->client_id;
             $client = Client::find($clientid);
-            
+
             array_push($clients_list, $clientid);
             $color = '';
 
-            if (sizeof($client) > 0){                      
-                if ($record->confidence > 50) {
+            if (sizeof($client) > 0){
+                if ($record->confidence >= 50) {
                     $color = Record::$COLOR_ARRAY[$record->channel_name];
-                } elseif ($record->confidence >= 10 && $record->confidence < 50) {
+                } elseif ($record->confidence < 50) {
                     $color = Record::$COLOR_ARRAY['Other'];
-                } elseif ($record->confidence <= 10 && $record->confidence > 0) {
-                    $color = Record::$COLOR_ARRAY['Low volume/unclear'];
                 } else {
                     $color = Record::$COLOR_ARRAY['Muted'];
                 }
 
-                array_push($features, 
+                array_push($features,
                     array(
                         "type"=> "Feature",
                         "properties"=> array(
@@ -96,10 +94,10 @@ class LiveMapController extends Controller
                             "coordinates"=> [$client->lon, $client->lat]
                         )
                     )
-                );    
+                );
             }
         }
-        
+
         $clients = Client::whereNotIn('_id', $clients_list)->get(['name','lon', 'lat']);
         foreach ($clients as $client) {
             if (isset($client['lon']) && isset($client['lat'])) {
@@ -115,7 +113,7 @@ class LiveMapController extends Controller
                             "coordinates"=> [$client->lon, $client->lat]
                         )
                     )
-                );    
+                );
             }
         }
 

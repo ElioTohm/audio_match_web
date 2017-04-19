@@ -59,20 +59,20 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 @if (!Auth::guest())
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
-                </ul>
-                <!-- Live Monitoring -->
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/livegraphs') }}">Live Monitoring</a></li>
-                </ul>
-                <!-- Map Live Monitoring -->
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/livemap') }}">Live Map</a></li>
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/clientsdetails') }}">Clients Info</a></li>
-                </ul>
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url('/home') }}">Home</a></li>
+                    </ul>
+                    <!-- Live Monitoring -->
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url('/livegraphs') }}">Live Monitoring</a></li>
+                    </ul>
+                    <!-- Map Live Monitoring -->
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url('/livemap') }}">Live Map</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url('/clientsdetails') }}">Clients Info</a></li>
+                    </ul>
                 @endif
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">

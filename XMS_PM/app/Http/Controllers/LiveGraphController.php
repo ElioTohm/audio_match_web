@@ -36,12 +36,9 @@ class LiveGraphController extends Controller
                 if ($record->confidence >= 50) {
                     $color = Record::$COLOR_ARRAY[$record->channel_name];
                     $channel_name = $record->channel_name;
-                } elseif ($record->confidence >= 10 && $record->confidence < 50) {
+                } elseif ($record->confidence < 50) {
                     $color = Record::$COLOR_ARRAY['Other'];
                     $channel_name = 'Other';
-                } elseif ($record->confidence <= 10 && $record->confidence > 0) {
-                    $color = Record::$COLOR_ARRAY['Low volume/unclear'];
-                    $channel_name = 'Low volume/unclear';
                 } else {
                     $color = Record::$COLOR_ARRAY['Low volume/unclear'];
                     $channel_name = 'Muted';
