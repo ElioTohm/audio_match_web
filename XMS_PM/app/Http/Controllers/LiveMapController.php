@@ -89,7 +89,7 @@ class LiveMapController extends Controller
                     array(
                         "type"=> "Feature",
                         "properties"=> array(
-                            "icon"=> $record->channel_name,
+                            "icon"=> $channel_name,
                             "icon-color"=> $color,
                             "description"=> $client->name
                         ),
