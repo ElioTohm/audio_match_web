@@ -74,15 +74,14 @@ class LiveMapController extends Controller
             $channel_name = '';
 
             if (sizeof($client) > 0){
+                $color = Record::$COLOR_ARRAY['Muted'];
+                $channel_name = 'Muted';
                 if ($record->confidence >= 50) {
                     $color = Record::$COLOR_ARRAY[$record->channel_name];
                     $channel_name = $record->channel_name;
-                } elseif ($record->confidence < 50) {
+                } elseif ($record->confidence > 9) {
                     $color = Record::$COLOR_ARRAY['Other'];
                     $channel_name = 'Other';
-                } else {
-                    $color = Record::$COLOR_ARRAY['Muted'];
-                    $channel_name = 'Muted';
                 }
 
                 array_push($features,

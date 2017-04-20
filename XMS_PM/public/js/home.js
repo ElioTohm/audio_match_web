@@ -2,14 +2,14 @@
 var chart24h;
 
 //keps track of previous info for linechart
-var fetched_data = []; 
+var fetched_data = [];
 var current_data = [];
 
 //variable to keep track of hidden series
 var hiddenchannels = [];
 
 //request data from mongo
-function requestData24h() 
+function requestData24h()
 {
     $.ajax({
         headers: {
@@ -40,27 +40,21 @@ function requestData24h()
 
                 charttimestampinfo = [];
                 for(var channel in watchedbytime[key]) {
-                    for(var timetags in watchedbytime[key][channel]) { 
-                        charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]); 
+                    for(var timetags in watchedbytime[key][channel]) {
+                        charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]);
                     }
                     if (Object.keys(watchedbytime[key])[0] == 'LBCI') {
                         chart24h.addSeries({
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#25e200'
-                        });    
+                        });
                     } else if (Object.keys(watchedbytime[key])[0] == 'MTV') {
                         chart24h.addSeries({
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#e20000'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'OTV') {
@@ -68,9 +62,6 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#faaa00'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'FUTURE') {
@@ -78,9 +69,6 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#0090ed'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'MANAR') {
@@ -88,9 +76,6 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#faf500'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'ALJADEED') {
@@ -98,9 +83,6 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#000000'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'TL') {
@@ -108,9 +90,6 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#d1d1bd'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'NBN') {
@@ -118,9 +97,6 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#a702b1'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
@@ -128,9 +104,6 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            tooltip: {
-                                pointFormat: '{point.x:%H:%M}: <b>{point.y}</b>'
-                            },
                             color: '#730028'
                         });
                     }
@@ -169,7 +142,7 @@ chart24h = new Highcharts.Chart({
                     piedata = _.filter(current_data, function(data) {
                         return data.timestamp >= event.xAxis[0].min/1000  && data.timestamp <= event.xAxis[0].max/1000;
                     });
-                    
+
                 } else {
                     piedata = _.filter(fetched_data, function(data) {
                         return data.timestamp;
@@ -185,7 +158,8 @@ chart24h = new Highcharts.Chart({
         text: 'Channels watched in the past week'
     },
     xAxis: {
-            type: 'datetime'
+        tickmarkPlacement: 'on',
+        type: 'datetime'
     },
     plotOptions: {
         series: {
@@ -200,11 +174,11 @@ chart24h = new Highcharts.Chart({
                     }
 
                     channelCountArray = drawpie(current_data);
-                    chart24h.series[0].update({data:channelCountArray}, true);    
+                    chart24h.series[0].update({data:channelCountArray}, true);
                 }
             },
         }
-    },           
+    },
     series: [{
         type: 'pie',
         name: 'Records',
@@ -223,11 +197,11 @@ chart24h.showLoading('Loading...');
 
 //draw pie series
 function drawpie (currentpiedata)
-{ 
+{
     for (var channel_name in hiddenchannels) {
         currentpiedata = currentpiedata.filter(function(n) {
             return n.channel_name != hiddenchannels[channel_name];
-        }); 
+        });
     }
     var piedata = _.countBy(currentpiedata, 'channel_name')
     channelCountArray = [];
@@ -251,6 +225,6 @@ function drawpie (currentpiedata)
         } else if (key == 'Other') {
             channelCountArray.push({name: key, y: piedata[key], color: '#730028'});
         }
-    }      
+    }
     return channelCountArray;
 }

@@ -1,6 +1,6 @@
 var toggleableLayerIds ;
 
-// initialize mapbox object  
+// initialize mapbox object
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpb3RvaG1lIiwiYSI6ImNqMTRvY2MyMzAwMDYzMm1sYjBobzB5NzUifQ.ZhqOIRqCpCSAt3yv8TZqIw';
 var filterGroup = document.getElementById('filter-group');
 var map = new mapboxgl.Map({
@@ -30,16 +30,16 @@ map.on('load', function() {
             map.addSource("places", {
                 "type": "geojson",
                 "data": places
-            });    
-            createChannelLayer (places) 
+            });
+            createChannelLayer (places)
         }
     });
-    
+
     //update places dataSource every 5s
     window.setInterval(function() {
         map.getSource('places').setData('/livemapdr');
     }, 5000);
-    
+
 });
 
 //popup to show clients detail
@@ -50,7 +50,7 @@ var popup = new mapboxgl.Popup({
 
 //on hover show client details
 map.on('mousemove', function(e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['LBCI','MTV','OTV','NBN','ALJADEED','TL','MANAR','FUTURE', 'Offline', 'Other'] });
+    var features = map.queryRenderedFeatures(e.point, { layers: ['LBCI','MTV','OTV','NBN','ALJADEED','TL','MANAR','FUTURE', 'Offline', 'Other', 'Muted'] });
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
@@ -107,7 +107,7 @@ function createChannelLayer (places) {
                 },
                 "filter": ["==", "icon", channel]
             });
-            
+
             // Add checkbox and label elements for the layer.
             var input = document.createElement('input');
             input.type = 'checkbox';
