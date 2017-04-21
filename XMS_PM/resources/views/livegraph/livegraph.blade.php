@@ -21,15 +21,16 @@
 					      </tr>
 					    </thead>
 					    <tbody>
-					      
+
 					    </tbody>
 					  </table>
 	            </div>
 	        </div>
 	    </div>
-	</div>	
+	</div>
 </div>
 
 <script src="{{url('/js/lodash.min.js')}}"></script>
 <script src="{{url('/js/livegraph.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{url('/css/livegraph.css')}}">
 @endsection

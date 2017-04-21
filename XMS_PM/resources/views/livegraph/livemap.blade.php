@@ -4,7 +4,7 @@
 <nav id='filter-group' class='filter-button'>
     <!-- Collapsed Hamburger -->
     <button type="button" id="channel-list-menu" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#map-navbar-collapse">
-        Channels
+        Channel
     </button>
     <div class="collapse navbar-collapse filter-group" id="map-navbar-collapse"></div>
 </nav>
