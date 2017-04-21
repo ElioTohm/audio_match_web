@@ -2,7 +2,7 @@ var toggleableLayerIds ;
 
 // initialize mapbox object
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpb3RvaG1lIiwiYSI6ImNqMTRvY2MyMzAwMDYzMm1sYjBobzB5NzUifQ.ZhqOIRqCpCSAt3yv8TZqIw';
-var filterGroup = document.getElementById('filter-group');
+var filterGroup = document.getElementById('map-navbar-collapse');
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',

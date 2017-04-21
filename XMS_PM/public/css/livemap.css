@@ -5,19 +5,44 @@ body { margin:0; padding:0; }
 .mapboxgl-ctrl-bottom-right{
     display: none;
 }
-#map { position:absolute; top:50px; bottom:0; width:100% }
+#map {
+    width:100%;
+    height: 100vh;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+.filter-group {
+    padding: 0px;
+}
+
+#channel-list-menu {
+    border-color: #7e7e7e;
+    background-color: #f8f8f8;
+    margin-bottom: 5px;
+    color: #7e7e7e;
+}
+
 .filter-group {
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
     font-weight: 600;
     position: absolute;
-    top: 60px;
+    margin-top: 50px;
     right: 10px;
     z-index: 1;
     border-radius: 3px;
     width: 100px;
     color: #fff;
 }
-
+.filter-button {
+    position: absolute;
+    right: 1px;
+    z-index: 1;
+    border-radius: 3px;
+    width: 100px;
+    color: #fff;
+}
 .filter-group input[type=checkbox]:first-child + label {
     border-radius: 3px 3px 0 0;
 }
