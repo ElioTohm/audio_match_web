@@ -79,7 +79,7 @@ class LiveMapController extends Controller
                 if ($record->confidence >= 50) {
                     $color = Record::$COLOR_ARRAY[$record->channel_name];
                     $channel_name = $record->channel_name;
-                } elseif ($record->confidence > 5) {
+                } elseif ($record->confidence > 9) {
                     $color = Record::$COLOR_ARRAY['Other'];
                     $channel_name = 'Other';
                 }
