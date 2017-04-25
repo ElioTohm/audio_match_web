@@ -131,6 +131,10 @@ chart24h = new Highcharts.Chart({
     credits: {
         enabled: false
     },
+     tooltip: {
+        shared: true,
+        crosshairs: true
+    },
     chart: {
         renderTo: 'graph24h',
         zoomType: 'x',
