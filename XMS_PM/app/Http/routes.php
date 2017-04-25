@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', 'HomeController@getData');
+
 Route::auth();
 
 Route::group(['middleware' => ['auth']], function()

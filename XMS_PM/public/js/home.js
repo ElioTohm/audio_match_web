@@ -19,103 +19,37 @@ function requestData24h()
         url: '/homegraph',
         type:'POST',
         success: function(point) {
-            //on success count distinct channel_name
-            _.each(point, function(a){
-                if(a.confidence < 50 ){
-                    a.channel_name = 'Other';
-                }
-            });
-            //transform object to array
-            channelCountArray = drawpie(point);
-
-            // filter info to get channel watched by time within time interval
-            var watchedbytime = _(point).groupBy('channel_name')
-                                        .map(function(item, itemId) {
-                                            var obj = {};
-                                            obj[itemId] = _.countBy(item, 'timestamp');
-                                            return obj;
-                                        }).valueOf();
-
-            for(var key in watchedbytime) {
-
-                charttimestampinfo = [];
-                for(var channel in watchedbytime[key]) {
-                    for(var timetags in watchedbytime[key][channel]) {
-                        charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]);
-                    }
-                    if (Object.keys(watchedbytime[key])[0] == 'LBCI') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#25e200'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MTV') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#e20000'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'OTV') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#faaa00'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'FUTURE') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#0090ed'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MANAR') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#faf500'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'ALJADEED') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#000000'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'TL') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#d1d1bd'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'NBN') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#a702b1'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#730028'
-                        });
-                    }
-                }
-            }
-
+            
+            point['records'].forEach(function(element) {
+                var channel = $.map(element, function(value, index) {
+                                return [value];
+                            });
+                var timestamps = [];
+                
+                channel[1].forEach(function (subelement) {
+                    console.log(subelement);    
+                    timestamps.push($.map(subelement, function(value, index) {
+                        if (index == 'timestamp') {
+                            return [value*1000];
+                        }
+                        return [value];
+                    }));
+                });
+                
+                chart24h.addSeries({
+                    name: channel[0],
+                    data: timestamps,
+                    type: 'spline',
+                    color: point['channel_color'][channel[0]]
+                }); 
+            }, this);
+            
             //save current fetched data
-            fetched_data = point;
-            current_data = point;
+            fetched_data = point['records'];
+            current_data = point['records'];
 
             // add array to series data
-            chart24h.series[0].setData(channelCountArray, true);
+            // chart24h.series[0].setData(channelCountArray, true);
 
             chart24h.hideLoading();
 
@@ -194,37 +128,3 @@ chart24h = new Highcharts.Chart({
     }],
 });
 chart24h.showLoading('Loading...');
-
-//draw pie series
-function drawpie (currentpiedata)
-{
-    for (var channel_name in hiddenchannels) {
-        currentpiedata = currentpiedata.filter(function(n) {
-            return n.channel_name != hiddenchannels[channel_name];
-        });
-    }
-    var piedata = _.countBy(currentpiedata, 'channel_name')
-    channelCountArray = [];
-    for(var key in piedata) {
-        if (key == 'LBCI') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#25e200'});
-        } else if (key == 'MTV') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#e20000'});
-        } else if (key == 'OTV') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#faaa00'});
-        } else if (key == 'FUTURE') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#0090ed'});
-        } else if (key == 'MANAR') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#faf500'});
-        } else if (key == 'ALJADEED') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#000000'});
-        } else if (key == 'TL') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#d1d1bd'});
-        } else if (key == 'NBN') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#a702b1'});
-        } else if (key == 'Other') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#730028'});
-        }
-    }
-    return channelCountArray;
-}

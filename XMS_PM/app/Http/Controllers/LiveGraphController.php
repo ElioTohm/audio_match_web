@@ -43,15 +43,15 @@ class LiveGraphController extends Controller
                     $channel_name = 'Other';
                 }
 
-               array_push($clientresult, array(
+                array_push($clientresult, array(
                            "channel_name" => $channel_name,
                            "client_id" => $record->client_id,
                            "client_name" => $client->name,
                            "timestamp" => $record->timestamp
                        )
                );
-           }
-       }
+            }
+        }
 
 
         return array("channel_color" => Record::$COLOR_ARRAY, "clients"=>$clientresult);
