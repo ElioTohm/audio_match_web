@@ -228,3 +228,31 @@ function drawpie (currentpiedata)
     }
     return channelCountArray;
 }
+
+$('#btn-line').click(function () {
+    $.each(chart24h.series, function(key, series) {
+        if ( key > 0) {
+            series.update({
+                type: 'line'
+            })
+        }
+    });
+    if (!$(this).hasClass('btn-primary')) {
+        $(this).toggleClass( "btn-primary" );
+        $('#btn-column').toggleClass( "btn-primary" );
+    }
+});
+
+$('#btn-column').click(function () {
+    $.each(chart24h.series, function(key, series) {
+        if ( key > 0) {
+            series.update({
+                type: 'column'
+            })
+        }
+    });
+    if (!$(this).hasClass('btn-primary')) {
+        $( this ).toggleClass( "btn-primary" );
+        $('#btn-line').toggleClass( "btn-primary" );
+    }
+});

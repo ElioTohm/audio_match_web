@@ -40,7 +40,7 @@ class HomeController extends Controller
 
         $time = time();
         $records = Record::where('timestamp', '>', $time - 7*24*60*60  )
-                        ->where('confidence', '>', 10)
+                        ->where('confidence', '>', 5)
                         ->get(['channel_name','timestamp','confidence']);
         
 

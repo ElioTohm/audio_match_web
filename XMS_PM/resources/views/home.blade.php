@@ -8,6 +8,8 @@
                 <div class="panel panel-default">
                     <div id="graph24h" style="width:100%; height:400px;"></div>
                 </div>
+                <button class='btn ' id='btn-line' >Line</button>
+                <button class='btn btn-primary' id='btn-column' >Column</button>
             </div>
         </div>
     </div>
