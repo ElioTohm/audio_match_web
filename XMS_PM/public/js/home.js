@@ -191,7 +191,7 @@ chart24h = new Highcharts.Chart({
             enabled: false
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '<b>{point.percentage:.1f}%</b>'
         },
         center: [15, 15],
         size: 100,
