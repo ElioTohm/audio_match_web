@@ -38,7 +38,7 @@
         </style>
     </head>
     <body>
-        <div class="container">
+        <div class="inner-main container">
             <div class="content">
                 <div class="title">Be right back.</div>
             </div>
