@@ -1,42 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="main">
-	<div class="container">
-	    <div class="row">
-	        <div class="col-md-12 ">
-				<div class="table-responsive">
-					<table class="table table-striped ">
-						<thead>
-							<tr>
-							  <th>client id</th>
-							  <th>name</th>
-							  <th>longitude</th>
-							  <th>lattitude</th>
-							  <th><span class="glyphicon glyphicon-cog"></span></th>
+<div class="inner-main container">
+	<div class="row">
+		<div class="col-md-12 ">
+			<div class="table-responsive">
+				<table class="table table-striped ">
+					<thead>
+						<tr>
+							<th>client id</th>
+							<th>name</th>
+							<th>longitude</th>
+							<th>lattitude</th>
+							<th><span class="glyphicon glyphicon-cog"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach ($clients as $key => $client)
+							<tr rowclientid="{{$client->id}}">
+								<td>{{$client->id}}</td>
+								<td>{{$client->name}}</td>
+								@if(isset($client['lon']) || isset($client['lat']))
+									<td>{{$client->lon}}</td>
+									<td>{{$client->lat}}</td>
+									<td><a id="{{$client->id}}" clientname="{{$client->name}}" lon="{{$client->lon}}" lat="{{$client->lat}} " data-toggle="modal" data-target="#modal-updateclient"><span class="glyphicon glyphicon-pencil"></span></a></td>
+								@else
+									<td>None</td>
+									<td>None</td>
+									<td><a id="{{$client->id}}" clientname="{{$client->name}}" lon="None" lat="None" data-toggle="modal" data-target="#modal-updateclient"><span class="glyphicon glyphicon-pencil"></span></a></td>
+								@endif
 							</tr>
-						</thead>
-						<tbody>
-							@foreach ($clients as $key => $client)
-								<tr rowclientid="{{$client->id}}">
-									<td>{{$client->id}}</td>
-									<td>{{$client->name}}</td>
-									@if(isset($client['lon']) || isset($client['lat']))
-										<td>{{$client->lon}}</td>
-										<td>{{$client->lat}}</td>
-										<td><a id="{{$client->id}}" clientname="{{$client->name}}" lon="{{$client->lon}}" lat="{{$client->lat}} " data-toggle="modal" data-target="#modal-updateclient"><span class="glyphicon glyphicon-pencil"></span></a></td>
-									@else
-										<td>None</td>
-										<td>None</td>
-										<td><a id="{{$client->id}}" clientname="{{$client->name}}" lon="None" lat="None" data-toggle="modal" data-target="#modal-updateclient"><span class="glyphicon glyphicon-pencil"></span></a></td>
-									@endif
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
-				</div>
-	        </div>
-	    </div>
+						@endforeach
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
 
