@@ -19,7 +19,7 @@ class LiveGraphController extends Controller
 
     public function getData()
     {
-        $records = Record::where('timestamp', '>', time() - 5*60  )
+        $records = Record::where('timestamp', '>', time() - 10*60  )
                         ->groupBy('client_id')
                         ->get(['client_id', 'timestamp', 'channel_name', 'confidence'])->sortBy('client_id');
 
