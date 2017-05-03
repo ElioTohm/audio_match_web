@@ -106,6 +106,20 @@ function requestData24h()
                             type: 'column',
                             color: '#730028'
                         });
+                    } else if (Object.keys(watchedbytime[key])[0] == 'GeoTV') {
+                        chart24h.addSeries({
+                            name: Object.keys(watchedbytime[key])[0],
+                            data: charttimestampinfo,
+                            type: 'column',
+                            color: '#aaaaaa'
+                        });
+                    } else if (Object.keys(watchedbytime[key])[0] == 'ExpressNews') {
+                        chart24h.addSeries({
+                            name: Object.keys(watchedbytime[key])[0],
+                            data: charttimestampinfo,
+                            type: 'column',
+                            color: '#eeeeee'
+                        });
                     }
                 }
             }
@@ -228,6 +242,10 @@ function drawpie (currentpiedata)
             channelCountArray.push({name: key, y: piedata[key], color: '#a702b1'});
         } else if (key == 'Other') {
             channelCountArray.push({name: key, y: piedata[key], color: '#730028'});
+        } else if (key == 'GeoTV') {
+            channelCountArray.push({name: key, y: piedata[key], color: '#aaaaaa'});
+        } else if (key == 'ExpressNews') {
+            channelCountArray.push({name: key, y: piedata[key], color: '#eeeeee'});
         }
     }
     return channelCountArray;
