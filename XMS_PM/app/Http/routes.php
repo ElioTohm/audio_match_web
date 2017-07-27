@@ -36,4 +36,9 @@ Route::group(['middleware' => ['auth']], function()
 	Route::get('/clientsdetails', 'ClientsDetailsController@index');
     Route::post('/updateclient', 'ClientsDetailsController@updateClient');
 
+    //report page
+    Route::get('/report', 'ReportController@index');
+	Route::post('/report', 'ReportController@getReportData');	
+
+
 });
