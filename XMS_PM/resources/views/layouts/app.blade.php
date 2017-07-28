@@ -74,6 +74,9 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url('/clientsdetails') }}">Clients Info</a></li>
                     </ul>
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url('/report') }}">Report</a></li>
+                    </ul>
                 @endif
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
