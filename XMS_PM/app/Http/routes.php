@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/report', 'ReportController@getReportData');	
+
 Route::auth();
 
 Route::group(['middleware' => ['auth']], function()
@@ -38,7 +40,5 @@ Route::group(['middleware' => ['auth']], function()
 
     //report page
     Route::get('/report', 'ReportController@index');
-	Route::post('/report', 'ReportController@getReportData');	
-
 
 });

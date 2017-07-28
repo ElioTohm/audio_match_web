@@ -1,8 +1,8 @@
 $('#submit_time').click(function () {
 
     var datasent = {
-        'from_data': 1,
-        'to_data': 2
+        'from_data': new Date($('#from_date').val()).getTime() / 1000,
+        'to_data': new Date($('#to_date').val()).getTime() / 1000
     }
 
     $.ajax({
@@ -16,6 +16,8 @@ $('#submit_time').click(function () {
         },
         success:function(data)
         {
+            console.log(data);
+
             $('tbody').html("");
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < data[i].clients.length; j++) {
