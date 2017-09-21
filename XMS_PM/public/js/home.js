@@ -43,61 +43,40 @@ function requestData24h()
                     for(var timetags in watchedbytime[key][channel]) {
                         charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]);
                     }
-                    if (Object.keys(watchedbytime[key])[0] == 'LBCI') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#25e200'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MTV') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#e20000'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'OTV') {
+                    if (Object.keys(watchedbytime[key])[0] == 'MBCAction') {
                         chart24h.addSeries({
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
                             color: '#faaa00'
                         });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'FUTURE') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#0090ed'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MANAR') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#faf500'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'ALJADEED') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#000000'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'TL') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#d1d1bd'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'NBN') {
+                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC1') {
                         chart24h.addSeries({
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
                             color: '#a702b1'
+                        });
+                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC2') {
+                        chart24h.addSeries({
+                            name: Object.keys(watchedbytime[key])[0],
+                            data: charttimestampinfo,
+                            type: 'column',
+                            color: '#25e200'
+                        });
+                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC3') {
+                        chart24h.addSeries({
+                            name: Object.keys(watchedbytime[key])[0],
+                            data: charttimestampinfo,
+                            type: 'column',
+                            color: '#e20000'
+                        });
+                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC4') {
+                        chart24h.addSeries({
+                            name: Object.keys(watchedbytime[key])[0],
+                            data: charttimestampinfo,
+                            type: 'column',
+                            color: '#faaa00'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
                         chart24h.addSeries({
@@ -105,20 +84,6 @@ function requestData24h()
                             data: charttimestampinfo,
                             type: 'column',
                             color: '#730028'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'GeoTV') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#aaaaaa'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'ExpressNews') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#eeeeee'
                         });
                     }
                 }
@@ -224,28 +189,18 @@ function drawpie (currentpiedata)
     var piedata = _.countBy(currentpiedata, 'channel_name')
     channelCountArray = [];
     for(var key in piedata) {
-        if (key == 'LBCI') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#25e200'});
-        } else if (key == 'MTV') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#e20000'});
-        } else if (key == 'OTV') {
+        if (key == 'MBCAction') {
             channelCountArray.push({name: key, y: piedata[key], color: '#faaa00'});
-        } else if (key == 'FUTURE') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#0090ed'});
-        } else if (key == 'MANAR') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#faf500'});
-        } else if (key == 'ALJADEED') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#000000'});
-        } else if (key == 'TL') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#d1d1bd'});
-        } else if (key == 'NBN') {
+        } else if (key == 'MBC1') {
             channelCountArray.push({name: key, y: piedata[key], color: '#a702b1'});
+        } else if (key == 'MBC2') {
+            channelCountArray.push({name: key, y: piedata[key], color: '#25e200'});
+        } else if (key == 'MBC3') {
+            channelCountArray.push({name: key, y: piedata[key], color: '#e20000'});
+        } else if (key == 'MBC4') {
+            channelCountArray.push({name: key, y: piedata[key], color: '#faaa00'});
         } else if (key == 'Other') {
             channelCountArray.push({name: key, y: piedata[key], color: '#730028'});
-        } else if (key == 'GeoTV') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#aaaaaa'});
-        } else if (key == 'ExpressNews') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#eeeeee'});
         }
     }
     return channelCountArray;
