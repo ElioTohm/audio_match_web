@@ -27,38 +27,40 @@ class ReportController extends Controller
       $to_date = $data['to_data'] + 86400;
 
       $condition = array(
-                      array( 
+                    array( 
                         '$group' => array( 
-                          '_id' => array(
-                            'channel_name' => '$channel_name', 
-                            'client_id' => '$client_id',
-                          ), 
-                          'timestamp'=> array( 
-                            '$addToSet' => '$timestamp' 
-                          ) 
-                        )
-                      ), 
-                      array( 
-                        '$group' => array(
-                          '_id' => array(
-                            'channel_name' => '$_id.channel_name'
-                          ), 
-                          'clients' => array(
-                            '$addToSet' => array(
-                              'client_id' => '$_id.client_id', 
-                              'timestamp' => array(
-                                '$size' => '$timestamp'
-                              )
+                            '_id' => array(
+                                'channel_name' => array(
+                                    'channel_name' => array(
+                                        '$cond'=> [ array( '$gt'=> [ '$confidence', 200 ] ), '$channel_name', 'Other' ]
+                                    )
+                                    ),
+                                'client_id' => '$client_id',
+                            ), 
+                            'timestamp'=> array( 
+                                '$addToSet' => '$timestamp' 
                             )
-                          )    
                         )
-                      ),
-                      array(
+                    ), 
+                    array( 
+                        '$group' => array(
+                            '_id' => '$_id.channel_name', 
+                            'clients' => array(
+                                '$addToSet' => array(
+                                    'client_id' => '$_id.client_id', 
+                                    'timestamp' => array(
+                                        '$size' => '$timestamp'
+                                    )
+                                )
+                            )    
+                        )
+                    ),
+                    array(
                         '$redact' => array(
-                          '$cond'=> [array( '$eq'=> [ '$_id.channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
+                            '$cond'=> [array( '$eq'=> [ '$_id.channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
                         )
-                      )
-                    );
+                    )
+                  );
 
       if (!is_null($from_date) && ($to_date > 86400)) {
         array_unshift($condition, array( 
