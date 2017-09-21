@@ -53,6 +53,11 @@ class ReportController extends Controller
                           )    
                         )
                       ),
+                      array(
+                        '$redact' => array(
+                          '$cond'=> [array( '$eq'=> [ '$confidence', 'Muted' ] ),'$$PRUNE','$$KEEP']
+                        )
+                      )
                     );
 
       if (!is_null($from_date) && !is_null($to_date)) {
