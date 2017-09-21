@@ -55,7 +55,7 @@ class ReportController extends Controller
                       ),
                       array(
                         '$redact' => array(
-                          '$cond'=> [array( '$eq'=> [ '$confidence', 'Muted' ] ),'$$PRUNE','$$KEEP']
+                          '$cond'=> [array( '$eq'=> [ '$_id.confidence', 'Muted' ] ),'$$PRUNE','$$KEEP']
                         )
                       )
                     );
