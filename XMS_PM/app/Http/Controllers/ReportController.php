@@ -24,8 +24,7 @@ class ReportController extends Controller
       $data = json_decode($request->getContent(),true);
 
       $from_date = $data['from_data'];
-      $to_date = $data['to_data'];
-
+      $to_date = $data['to_data'] + 86400;
 
       $condition = array(
                       array( 
