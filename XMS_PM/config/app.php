@@ -161,11 +161,6 @@ return [
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
 
-        /*
-        * authentication with privileges 3rd party
-        */
-        Zizaco\Entrust\EntrustServiceProvider::class,
-
         //Mongo session
         Jenssegers\Mongodb\Session\SessionServiceProvider::class,
 
@@ -214,8 +209,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-        
     ],
 
 ];

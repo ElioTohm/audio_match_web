@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Jenssegers\Mongodb\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use EntrustUserTrait;
+
+    protected $collection = 'users';
     /**
      * The attributes that are mass assignable.
      *
