@@ -76,7 +76,7 @@ function requestData24h()
                             name: Object.keys(watchedbytime[key])[0],
                             data: charttimestampinfo,
                             type: 'column',
-                            color: '#faaa00'
+                            color: '#9370DB'
                         });
                     } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
                         chart24h.addSeries({
@@ -198,7 +198,7 @@ function drawpie (currentpiedata)
         } else if (key == 'MBC3') {
             channelCountArray.push({name: key, y: piedata[key], color: '#e20000'});
         } else if (key == 'MBC4') {
-            channelCountArray.push({name: key, y: piedata[key], color: '#faaa00'});
+            channelCountArray.push({name: key, y: piedata[key], color: '#9370DB'});
         } else if (key == 'Other') {
             channelCountArray.push({name: key, y: piedata[key], color: '#730028'});
         }
