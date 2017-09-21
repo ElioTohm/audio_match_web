@@ -60,7 +60,7 @@ class ReportController extends Controller
                       )
                     );
 
-      if (!is_null($from_date) && !is_null($to_date)) {
+      if (!is_null($from_date) && ($to_date > 86400)) {
         array_unshift($condition, array( 
           '$match' => array(
             'timestamp' => array(
@@ -79,7 +79,7 @@ class ReportController extends Controller
             )
           )
         );
-      } elseif (!is_null($to_date)) {
+      } elseif ($to_date > 86400) {
         array_unshift($condition, array( 
           '$match' => array(
             'timestamp' => array(
