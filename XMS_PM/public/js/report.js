@@ -24,7 +24,7 @@ $('#submit_time').click(function () {
                     var time = data[i].clients[j].timestamp * 30 ;
                     var hours = Math.floor(time / 3600);
                     var minutes =  Math.floor((time - (hours * 3600)) / 60);
-                    var seconds = time - minutes * 60;
+                    var seconds = time - minutes * 60 - hours * 3600;
                     
                     var element = "<tr><td>"+data[i]._id.channel_name+"</td><td>"+data[i].clients[j].client_id+"</td><td>"+hours+"</td><td>"+minutes+"</td><td>"+seconds+"</td></tr>";
                     $('tbody').append(element);
