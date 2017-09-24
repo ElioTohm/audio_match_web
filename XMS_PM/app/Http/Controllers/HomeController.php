@@ -42,7 +42,9 @@ class HomeController extends Controller
         $records = Record::where('timestamp', '>', $time - 7*24*60*60  )
                         ->where('confidence', '>', 5)
                         ->get(['channel_name','timestamp','confidence']);
-        
+
+        return $records;
+                        
         $condition = array(
             array( 
                 '$match' => array(
@@ -80,8 +82,6 @@ class HomeController extends Controller
                 )
             )
         );
-
-        return $records;
     }
 
 }
