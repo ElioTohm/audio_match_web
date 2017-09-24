@@ -30,12 +30,10 @@
 					<th></th>
 					<th>Info</th>
 					<th></th>
-					<th></th>
 					<th>Duration</th>
 					<th></th>
 				</tr>
 				<tr>
-					<th>Service Number</th>
 					<th>Channel Name</th>
 					<th>Device ID</th>
 					<th>Hours</th>

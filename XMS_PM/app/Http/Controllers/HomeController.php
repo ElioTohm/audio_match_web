@@ -43,6 +43,43 @@ class HomeController extends Controller
                         ->where('confidence', '>', 5)
                         ->get(['channel_name','timestamp','confidence']);
         
+        $condition = array(
+            array( 
+                '$match' => array(
+                    'timestamp' => array(
+                        '$gte' =>  $from_date,
+                        '$lt' => $to_date
+                    ),
+                    'confidence'=> array(
+                        '$gte' =>  5,
+                    )
+                )
+            ),
+            array( 
+                '$group'=> array( 
+                    '_id'=> array(
+                        'timestamp'=> '$timestamp',
+                        'channel_name'=> array(
+                                '$cond'=> [ array( '$gt'=> [ '$confidence', 200 ] ), '$channel_name', 'Other' ]
+                            )
+                    ), 
+                    'client_id'=> array( 
+                        '$addToSet'=> '$client_id' 
+                    )
+                )
+            ),
+            array(
+                $project=> array(
+                    'client_id'=> 1,
+                    'watchedcount'=> array( $size=> "$client_id" )
+                )
+            ),
+            array(
+                '$redact' => array(
+                    '$cond'=> [array( '$eq'=> [ '$_id.channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
+                )
+            )
+        );
 
         return $records;
     }
