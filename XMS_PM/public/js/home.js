@@ -104,18 +104,18 @@ chart24h = new Highcharts.Chart({
     plotOptions: {
         series: {
             events: {
-                legendItemClick: function (e) {
-                    selectchannelname =  this.name;
-                    if (this.visible) {
-                        hiddenchannels.push(selectchannelname);
-                    } else{
-                        var index = hiddenchannels.indexOf(selectchannelname);
-                        hiddenchannels.splice(index, 1);
-                    }
+                // legendItemClick: function (e) {
+                //     selectchannelname =  this.name;
+                //     if (this.visible) {
+                //         hiddenchannels.push(selectchannelname);
+                //     } else{
+                //         var index = hiddenchannels.indexOf(selectchannelname);
+                //         hiddenchannels.splice(index, 1);
+                //     }
 
-                    channelCountArray = drawpie(current_data);
-                    chart24h.series[0].update({data:channelCountArray}, true);
-                }
+                //     channelCountArray = drawpie(current_data);
+                //     chart24h.series[0].update({data:channelCountArray}, true);
+                // }
             },
         }
     },
