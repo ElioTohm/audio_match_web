@@ -21,6 +21,7 @@ function requestData24h()
             // //transform object to array
             pieinfo = []
             barinfo = []
+            console.log(point.channel_color)
             _.forEach(point, function(value, index) {
                 if (index != 'channel_name') {
                     var name = ''
@@ -44,7 +45,7 @@ function requestData24h()
 
                     console.log(data)
 
-                    chart24h.addSeries({'name': name, 'data': data, 'type': 'column'})
+                    chart24h.addSeries({'name': name, 'data': data, 'type': 'column', 'color': point.channel_color[name]})
                 }
             });
               
