@@ -127,13 +127,17 @@ chart24h = new Highcharts.Chart({
                     index = this.index;
                     var piedata = JSON.parse(localStorage.getItem('point'));
                     var pieinfo = []
-                    
-                    console.log(e)
+
+                    selectchannelname =  this.name;
+                    if (this.visible) {
+                        invisible.push(selectchannelname);
+                    } else{
+                        var index = invisible.indexOf(selectchannelname);
+                        invisible.splice(index, 1);
+                    }
                     
                     console.log(invisible)    
                     _.forEach(piedata, function(value, index) {
-                        console.log(!_.includes(invisible, value._id))
-                        
                         if ((index != 'channel_name') && (!_.includes(invisible, value._id))) {
                             var sum = 0
                             name = value._id
