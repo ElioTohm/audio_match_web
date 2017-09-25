@@ -36,7 +36,12 @@ function requestData24h()
                         'name': value._id,
                         'y':sum
                     }) 
+                    data.sort(function(a, b) {
+                        return a[0] - b[0];
+                      });
+
                     console.log(data)
+
                     chart24h.addSeries({'name': name, 'data': data, 'type': 'column'})
                 }
             });

@@ -41,16 +41,16 @@ class HomeController extends Controller
         $time = time();
         
         $condition = array(
-            array( 
-                '$match' => array(
-                    'timestamp' => array(
-                        '$gte' =>  $time - 7*24*60*60,
-                    ),
-                    'confidence'=> array(
-                        '$gte' =>  5,
-                    )
-                )
-            ),
+            // array( 
+            //     '$match' => array(
+            //         'timestamp' => array(
+            //             '$gte' =>  $time - 7*24*60*60,
+            //         ),
+            //         'confidence'=> array(
+            //             '$gte' =>  5,
+            //         )
+            //     )
+            // ),
             array(
                 '$redact' => array(
                     '$cond'=> [array( '$eq'=> [ '$channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
