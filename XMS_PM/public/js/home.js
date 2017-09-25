@@ -79,38 +79,15 @@ chart24h = new Highcharts.Chart({
         events: {
             load: requestData24h,
             selection: function(event) {
-                var piedata = JSON.parse(localStorage.getItem('point'));
-                var pieinfo = []
                 
-                _.forEach(piedata, function(value, index) {
-                    if (index != 'channel_name') {
-                        var sum = 0
-                        name = value._id
-        
-                        _.forEach(value.watched_per_ts, function(count) {
-                            if(event.xAxis != null){
-                                lowerbound = event.xAxis[0].min/1000
-                                upperbound = event.xAxis[0].max/1000
-                                
-                                if ((count.timestamp >= lowerbound) &&  (count.timestamp <= upperbound)) {
-                                    sum = sum + count.counter
-                                }
-                            } else {
-                                lowerbound, upperbound = null
-                                sum = sum + count.counter
-                            }
-                            
-                            
-                        });
-                        pieinfo.push({
-                            'name': value._id,
-                            'y':sum,
-                            'color': piedata.channel_color[value._id]
-                        })     
-                    }
-                });
-                console.log(pieinfo)
-                this.series[0].update({data:pieinfo}, true);
+                if(event.xAxis != null){
+                    lowerbound = event.xAxis[0].min/1000
+                    upperbound = event.xAxis[0].max/1000
+                } else {
+                    lowerbound, upperbound = null
+                }
+             
+                updatepie();
             }
         }
     },
@@ -127,9 +104,7 @@ chart24h = new Highcharts.Chart({
                 legendItemClick: function (e) {
                     var chart = this.chart,
                     index = this.index;
-                    var piedata = JSON.parse(localStorage.getItem('point'));
-                    var pieinfo = []
-
+                  
                     selectchannelname =  this.name;
                     if (this.visible) {
                         invisible.push(selectchannelname);
@@ -139,24 +114,7 @@ chart24h = new Highcharts.Chart({
                     }
                     
                     console.log(invisible)    
-                    _.forEach(piedata, function(value, index) {
-                        if ((index != 'channel_name') && (!_.includes(invisible, value._id))) {
-                            var sum = 0
-                            name = value._id
-                            
-                            
-                            _.forEach(value.watched_per_ts, function(count) {
-                                sum = sum + count.counter
-                            });
-                            pieinfo.push({
-                                'name': value._id,
-                                'y':sum,
-                                'color': piedata.channel_color[value._id]
-                            })     
-                        }
-                    });
-                    chart24h.series[0].update({data:pieinfo}, true);
-
+                   updatepie();
                 }
             },
         }
@@ -205,3 +163,31 @@ $('#btn-column').click(function () {
         $('#btn-line').toggleClass( "btn-primary" );
     }
 });
+
+function updatepie() {
+
+    var piedata = JSON.parse(localStorage.getItem('point'));
+    var pieinfo = []
+    _.forEach(piedata, function(value, index) {
+        if ((index != 'channel_name') && (!_.includes(invisible, value._id))) {
+            var sum = 0
+            name = value._id
+
+            _.forEach(value.watched_per_ts, function(count) {
+                if(lowerbound != null){
+                    if ((count.timestamp >= lowerbound) &&  (count.timestamp <= upperbound)) {
+                        sum = sum + count.counter
+                    }
+                } else {
+                    sum = sum + count.counter
+                }
+            });
+            pieinfo.push({
+                'name': value._id,
+                'y':sum,
+                'color': piedata.channel_color[value._id]
+            })     
+        }
+    });
+    chart24h.series[0].update({data:pieinfo}, true);
+}
