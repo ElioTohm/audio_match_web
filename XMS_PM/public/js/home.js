@@ -19,84 +19,80 @@ function requestData24h()
         url: '/homegraph',
         type:'POST',
         success: function(point) {
-            //on success count distinct channel_name
-            _.each(point, function(a){
-                if(a.confidence < 200 ){
-                    a.channel_name = 'Other';
-                }
-            });
-            //transform object to array
+            console.log(point)
+
+            // //transform object to array
             channelCountArray = drawpie(point);
 
-            // filter info to get channel watched by time within time interval
-            var watchedbytime = _(point).groupBy('channel_name')
-                                        .map(function(item, itemId) {
-                                            var obj = {};
-                                            obj[itemId] = _.countBy(item, 'timestamp');
-                                            return obj;
-                                        }).valueOf();
+            // // filter info to get channel watched by time within time interval
+            // var watchedbytime = _(point).groupBy('channel_name')
+            //                             .map(function(item, itemId) {
+            //                                 var obj = {};
+            //                                 obj[itemId] = _.countBy(item, 'timestamp');
+            //                                 return obj;
+            //                             }).valueOf();
 
-            for(var key in watchedbytime) {
+            // for(var key in watchedbytime) {
 
-                charttimestampinfo = [];
-                for(var channel in watchedbytime[key]) {
-                    for(var timetags in watchedbytime[key][channel]) {
-                        charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]);
-                    }
-                    if (Object.keys(watchedbytime[key])[0] == 'MBCAction') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#faaa00'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC1') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#a702b1'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC2') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#25e200'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC3') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#e20000'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'MBC4') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#9370DB'
-                        });
-                    } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
-                        chart24h.addSeries({
-                            name: Object.keys(watchedbytime[key])[0],
-                            data: charttimestampinfo,
-                            type: 'column',
-                            color: '#730028'
-                        });
-                    }
-                }
-            }
+            //     charttimestampinfo = [];
+            //     for(var channel in watchedbytime[key]) {
+            //         for(var timetags in watchedbytime[key][channel]) {
+            //             charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]);
+            //         }
+            //         if (Object.keys(watchedbytime[key])[0] == 'MBCAction') {
+            //             chart24h.addSeries({
+            //                 name: Object.keys(watchedbytime[key])[0],
+            //                 data: charttimestampinfo,
+            //                 type: 'column',
+            //                 color: '#faaa00'
+            //             });
+            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC1') {
+            //             chart24h.addSeries({
+            //                 name: Object.keys(watchedbytime[key])[0],
+            //                 data: charttimestampinfo,
+            //                 type: 'column',
+            //                 color: '#a702b1'
+            //             });
+            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC2') {
+            //             chart24h.addSeries({
+            //                 name: Object.keys(watchedbytime[key])[0],
+            //                 data: charttimestampinfo,
+            //                 type: 'column',
+            //                 color: '#25e200'
+            //             });
+            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC3') {
+            //             chart24h.addSeries({
+            //                 name: Object.keys(watchedbytime[key])[0],
+            //                 data: charttimestampinfo,
+            //                 type: 'column',
+            //                 color: '#e20000'
+            //             });
+            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC4') {
+            //             chart24h.addSeries({
+            //                 name: Object.keys(watchedbytime[key])[0],
+            //                 data: charttimestampinfo,
+            //                 type: 'column',
+            //                 color: '#9370DB'
+            //             });
+            //         } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
+            //             chart24h.addSeries({
+            //                 name: Object.keys(watchedbytime[key])[0],
+            //                 data: charttimestampinfo,
+            //                 type: 'column',
+            //                 color: '#730028'
+            //             });
+            //         }
+            //     }
+            // }
 
-            //save current fetched data
-            fetched_data = point;
-            current_data = point;
+            // //save current fetched data
+            // fetched_data = point;
+            // current_data = point;
 
-            // add array to series data
-            chart24h.series[0].setData(channelCountArray, true);
+            // // add array to series data
+            // chart24h.series[0].setData(channelCountArray, true);
 
-            chart24h.hideLoading();
+            // chart24h.hideLoading();
 
         },
         error: function (data) {

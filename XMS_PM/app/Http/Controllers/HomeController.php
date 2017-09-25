@@ -39,49 +39,62 @@ class HomeController extends Controller
         $data = json_decode($request->getContent(),true);
 
         $time = time();
-        $records = Record::where('timestamp', '>', $time - 7*24*60*60  )
-                        ->where('confidence', '>', 5)
-                        ->get(['channel_name','timestamp','confidence']);
+        
+        $condition = array(
+            // array( 
+            //     '$match' => array(
+            //         'timestamp' => array(
+            //             '$gte' =>  $time - 7*24*60*60,
+            //         ),
+            //         'confidence'=> array(
+            //             '$gte' =>  5,
+            //         )
+            //     )
+            // ),
+            array(
+                '$redact' => array(
+                    '$cond'=> [array( '$eq'=> [ '$channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
+                )
+            ),
+            array( 
+                '$group'=> array( 
+                    '_id'=> array(
+                        'timestamp'=> '$timestamp',
+                        'channel_name'=> array(
+                            '$cond'=> [ array( '$gt'=> [ '$confidence', 200 ] ), '$channel_name', 'Other' ]
+                        )
+                    ), 
+                    'client_id'=> array( 
+                        '$addToSet'=> '$client_id' 
+                    )
+                )
+            ),
+            array(
+                '$group'=> array(
+                    '_id'=> '$_id.channel_name',
+                    'watched_per_ts'=> array(
+                        '$push'=>array(
+                            'timestamp'=> '$_id.timestamp',
+                            'counter'=> array(
+                                '$size'=>'$client_id'
+                            )
+                        )
+                    )         
+                )
+            )
+        );
 
-        return $records;
-                        
-        // $condition = array(
-        //     array( 
-        //         '$match' => array(
-        //             'timestamp' => array(
-        //                 '$gte' =>  $from_date,
-        //                 '$lt' => $to_date
-        //             ),
-        //             'confidence'=> array(
-        //                 '$gte' =>  5,
-        //             )
-        //         )
-        //     ),
-        //     array( 
-        //         '$group'=> array( 
-        //             '_id'=> array(
-        //                 'timestamp'=> '$timestamp',
-        //                 'channel_name'=> array(
-        //                         '$cond'=> [ array( '$gt'=> [ '$confidence', 200 ] ), '$channel_name', 'Other' ]
-        //                     )
-        //             ), 
-        //             'client_id'=> array( 
-        //                 '$addToSet'=> '$client_id' 
-        //             )
-        //         )
-        //     ),
-        //     array(
-        //         $project=> array(
-        //             'client_id'=> 1,
-        //             'watchedcount'=> array( $size=> "$client_id" )
-        //         )
-        //     ),
-        //     array(
-        //         '$redact' => array(
-        //             '$cond'=> [array( '$eq'=> [ '$_id.channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
-        //         )
-        //     )
-        // );
+        //aggregate data to count the timestamp when the client watched a channel
+        $result = Record::raw(function($collection) use ($condition)
+        {
+            return $collection->aggregate($condition);
+        });
+
+        
+
+        $result['channel_color'] = Record::$COLOR_ARRAY;
+
+        return $result;
     }
 
 }
