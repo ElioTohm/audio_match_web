@@ -41,16 +41,16 @@ class HomeController extends Controller
         $time = time();
         
         $condition = array(
-            // array( 
-            //     '$match' => array(
-            //         'timestamp' => array(
-            //             '$gte' =>  $time - 7*24*60*60,
-            //         ),
-            //         'confidence'=> array(
-            //             '$gte' =>  5,
-            //         )
-            //     )
-            // ),
+            array( 
+                '$match' => array(
+                    'timestamp' => array(
+                        '$gte' =>  $time - 7*24*60*60,
+                    ),
+                    'confidence'=> array(
+                        '$gte' =>  5,
+                    )
+                )
+            ),
             array(
                 '$redact' => array(
                     '$cond'=> [array( '$eq'=> [ '$channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
@@ -63,7 +63,10 @@ class HomeController extends Controller
                         'channel_name'=> array(
                             '$cond'=> [ array( '$gt'=> [ '$confidence', 200 ] ), '$channel_name', 'Other' ]
                         )
-                    ), 
+                    ),
+                    'channel_pie_score'=>array(
+                        '$sum'=> 1
+                    ),
                     'client_id'=> array( 
                         '$addToSet'=> '$client_id' 
                     )
@@ -81,7 +84,10 @@ class HomeController extends Controller
                         )
                     )         
                 )
-            )
+            ),
+            array(
+                '$sort'=> array('watched_per_ts.timestamp'=> 1)
+            ),
         );
 
         //aggregate data to count the timestamp when the client watched a channel
@@ -89,11 +95,9 @@ class HomeController extends Controller
         {
             return $collection->aggregate($condition);
         });
-
         
-
-        $result['channel_color'] = Record::$COLOR_ARRAY;
-
+        // $result['channel_color'] = Record::$COLOR_ARRAY;
+        
         return $result;
     }
 
