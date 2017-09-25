@@ -127,25 +127,25 @@ chart24h = new Highcharts.Chart({
     chart: {
         renderTo: 'graph24h',
         zoomType: 'x',
-        // events: {
-        //     load: requestData24h,
-        //     selection: function(event) {
-        //         var piedata = current_data;
-        //         if(event.xAxis != null) {
-        //             piedata = _.filter(current_data, function(data) {
-        //                 return data.timestamp >= event.xAxis[0].min/1000  && data.timestamp <= event.xAxis[0].max/1000;
-        //             });
+        events: {
+            load: requestData24h,
+            // selection: function(event) {
+            //     var piedata = current_data;
+            //     if(event.xAxis != null) {
+            //         piedata = _.filter(current_data, function(data) {
+            //             return data.timestamp >= event.xAxis[0].min/1000  && data.timestamp <= event.xAxis[0].max/1000;
+            //         });
 
-        //         } else {
-        //             piedata = _.filter(fetched_data, function(data) {
-        //                 return data.timestamp;
-        //             });
-        //         }
-        //         current_data = piedata;
-        //         channelCountArray = drawpie(piedata);
-        //         this.series[0].update({data:channelCountArray}, true);
-        //     }
-        // }
+            //     } else {
+            //         piedata = _.filter(fetched_data, function(data) {
+            //             return data.timestamp;
+            //         });
+            //     }
+            //     current_data = piedata;
+            //     channelCountArray = drawpie(piedata);
+            //     this.series[0].update({data:channelCountArray}, true);
+            // }
+        }
     },
     title: {
         text: 'Channels watched in the past week'
