@@ -18,87 +18,26 @@ function requestData24h()
             // //transform object to array
             pieinfo = []
             barinfo = []
-            for (var i in point) {
+            _.forEach(point, function(value) {
                 var name = ''
                 var sum = 0
                 var data = []
 
-                name = point[i]._id
+                name = value._id
 
-                for (var y in point[i].watched_per_ts) {
-                    localStorage.setItem(point[i]._id, JSON.stringify(point[i]));
-                    var counter = point[i].watched_per_ts[y].counter
+                localStorage.setItem(value._id, JSON.stringify(value));
+                _.forEach(value.watched_per_ts, function(count) {
+                    var counter = count.counter
                     sum = sum + counter
                     data.push(counter)
-                }
-                pieinfo[i] = {
-                    'name': point[i]._id,
+                });
+                pieinfo.push({
+                    'name': value._id,
                     'y':sum
-                } 
+                }) 
                 chart24h.addSeries({'name': name, 'data': data, 'type': 'column'})
-            }
-
-            // // filter info to get channel watched by time within time interval
-            // var watchedbytime = _(point).groupBy('channel_name')
-            //                             .map(function(item, itemId) {
-            //                                 var obj = {};
-            //                                 obj[itemId] = _.countBy(item, 'timestamp');
-            //                                 return obj;
-            //                             }).valueOf();
-
-            // for(var key in watchedbytime) {
-
-            //     charttimestampinfo = [];
-            //     for(var channel in watchedbytime[key]) {
-            //         for(var timetags in watchedbytime[key][channel]) {
-            //             charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]);
-            //         }
-            //         if (Object.keys(watchedbytime[key])[0] == 'MBCAction') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#faaa00'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC1') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#a702b1'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC2') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#25e200'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC3') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#e20000'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC4') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#9370DB'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#730028'
-            //             });
-            //         }
-            //     }
-            // }
-
+            });
+              
             // //save current fetched data
             // fetched_data = point;
             // current_data = point;
@@ -157,18 +96,18 @@ chart24h = new Highcharts.Chart({
     plotOptions: {
         series: {
             events: {
-                legendItemClick: function (e) {
-                    selectchannelname =  this.name;
-                    if (this.visible) {
-                        hiddenchannels.push(selectchannelname);
-                    } else{
-                        var index = hiddenchannels.indexOf(selectchannelname);
-                        hiddenchannels.splice(index, 1);
-                    }
+                // legendItemClick: function (e) {
+                //     selectchannelname =  this.name;
+                //     if (this.visible) {
+                //         hiddenchannels.push(selectchannelname);
+                //     } else{
+                //         var index = hiddenchannels.indexOf(selectchannelname);
+                //         hiddenchannels.splice(index, 1);
+                //     }
 
-                    channelCountArray = drawpie(current_data);
-                    chart24h.series[0].update({data:channelCountArray}, true);
-                }
+                //     channelCountArray = drawpie(current_data);
+                //     chart24h.series[0].update({data:channelCountArray}, true);
+                // }
             },
         }
     },
@@ -188,33 +127,6 @@ chart24h = new Highcharts.Chart({
 });
 chart24h.showLoading('Loading...');
 
-//draw pie series
-// function drawpie (currentpiedata)
-// {
-//     for (var channel_name in hiddenchannels) {
-//         currentpiedata = currentpiedata.filter(function(n) {
-//             return n.channel_name != hiddenchannels[channel_name];
-//         });
-//     }
-//     var piedata = _.countBy(currentpiedata, 'channel_name')
-//     channelCountArray = [];
-//     for(var key in piedata) {
-//         if (key == 'MBCAction') {
-//             channelCountArray.push({name: key, y: piedata[key], color: '#faaa00'});
-//         } else if (key == 'MBC1') {
-//             channelCountArray.push({name: key, y: piedata[key], color: '#a702b1'});
-//         } else if (key == 'MBC2') {
-//             channelCountArray.push({name: key, y: piedata[key], color: '#25e200'});
-//         } else if (key == 'MBC3') {
-//             channelCountArray.push({name: key, y: piedata[key], color: '#e20000'});
-//         } else if (key == 'MBC4') {
-//             channelCountArray.push({name: key, y: piedata[key], color: '#9370DB'});
-//         } else if (key == 'Other') {
-//             channelCountArray.push({name: key, y: piedata[key], color: '#730028'});
-//         }
-//     }
-//     return channelCountArray;
-// }
 
 $('#btn-line').click(function () {
     $.each(chart24h.series, function(key, series) {
