@@ -41,16 +41,16 @@ class HomeController extends Controller
         $time = time();
         
         $condition = array(
-            array( 
-                '$match' => array(
-                    'timestamp' => array(
-                        '$gte' =>  $time - 7*24*60*60,
-                    ),
-                    'confidence'=> array(
-                        '$gte' =>  5,
-                    )
-                )
-            ),
+            // array( 
+            //     '$match' => array(
+            //         'timestamp' => array(
+            //             '$gte' =>  $time - 7*24*60*60,
+            //         ),
+            //         'confidence'=> array(
+            //             '$gte' =>  5,
+            //         )
+            //     )
+            // ),
             array(
                 '$redact' => array(
                     '$cond'=> [array( '$eq'=> [ '$channel_name', 'Muted' ] ),'$$PRUNE','$$KEEP']
@@ -86,7 +86,7 @@ class HomeController extends Controller
                 )
             ),
             array(
-                '$sort'=> array('watched_per_ts.timestamp'=> 1)
+                '$sort'=> array('watched_per_ts.channel_name'=> 1)
             ),
         );
 
@@ -96,7 +96,9 @@ class HomeController extends Controller
             return $collection->aggregate($condition);
         });
         
-        // $result['channel_color'] = Record::$COLOR_ARRAY;
+        $result['channel_color'] = ['MBCAction'=>'#faaa00', 'MBC1'=>'#a702b1', 
+                                    'MBC2'=>'#25e200','MBC3'=>'#e20000',
+                                    'MBC4'=>'#9370DB',  'Other'=>'#730028'];
         
         return $result;
     }
