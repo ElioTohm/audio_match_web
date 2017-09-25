@@ -14,7 +14,7 @@ function requestData24h()
         url: '/homegraph',
         type:'POST',
         success: function(point) {
-            console.log(point)
+            localStorage.setItem('point', JSON.stringify(point));
             // //transform object to array
             pieinfo = []
             barinfo = []
@@ -26,7 +26,6 @@ function requestData24h()
     
                     name = value._id
     
-                    localStorage.setItem(value._id, JSON.stringify(value));
                     _.forEach(value.watched_per_ts, function(count) {
                         var counter = count.counter
                         sum = sum + counter
@@ -76,22 +75,33 @@ chart24h = new Highcharts.Chart({
         zoomType: 'x',
         events: {
             load: requestData24h,
-            // selection: function(event) {
-            //     var piedata = current_data;
-            //     if(event.xAxis != null) {
-            //         piedata = _.filter(current_data, function(data) {
-            //             return data.timestamp >= event.xAxis[0].min/1000  && data.timestamp <= event.xAxis[0].max/1000;
-            //         });
+            selection: function(event) {
+                var piedata = JSON.parse(localStorage.getItem('point'));
+                var pieinfo = []
+                if(event.xAxis != null) {
 
-            //     } else {
-            //         piedata = _.filter(fetched_data, function(data) {
-            //             return data.timestamp;
-            //         });
-            //     }
-            //     current_data = piedata;
-            //     channelCountArray = drawpie(piedata);
-            //     this.series[0].update({data:channelCountArray}, true);
-            // }
+                }
+                console.log(event.xAxis)
+                _.forEach(piedata, function(value, index) {
+                    if (index != 'channel_name') {
+                        var sum = 0
+        
+                        name = value._id
+        
+                        _.forEach(value.watched_per_ts, function(count) {
+                            if ((count.timestamp >= event.xAxis[0].min/1000) &&  (count.timestamp <= event.xAxis[0].max/1000)) {
+                                sum = sum + count.counter
+                            }
+                            
+                        });
+                        pieinfo.push({
+                            'name': value._id,
+                            'y':sum
+                        })     
+                    }
+                });
+                this.series[0].update({data:pieinfo}, true);
+            }
         }
     },
     title: {
