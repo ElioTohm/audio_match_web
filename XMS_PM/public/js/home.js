@@ -89,9 +89,14 @@ chart24h = new Highcharts.Chart({
                         name = value._id
         
                         _.forEach(value.watched_per_ts, function(count) {
-                            if ((count.timestamp >= event.xAxis[0].min/1000) &&  (count.timestamp <= event.xAxis[0].max/1000)) {
+                            if(event.xAxis != null){
+                                if ((count.timestamp >= event.xAxis[0].min/1000) &&  (count.timestamp <= event.xAxis[0].max/1000)) {
+                                    sum = sum + count.counter
+                                }
+                            } else {
                                 sum = sum + count.counter
                             }
+                            
                             
                         });
                         pieinfo.push({
@@ -101,6 +106,18 @@ chart24h = new Highcharts.Chart({
                     }
                 });
                 this.series[0].update({data:pieinfo}, true);
+                // if(event.xAxis != null) {
+                //     piedata = _.filter(current_data, function(data) {
+                //         return data.timestamp >= event.xAxis[0].min/1000  && data.timestamp <= event.xAxis[0].max/1000;
+                //     });
+                // } else {
+                //     piedata = _.filter(fetched_data, function(data) {
+                //         return data.timestamp;
+                //     });
+                // }
+                // current_data = piedata;
+                // // channelCountArray = drawpie(piedata);
+                // this.series[0].update({data:channelCountArray}, true);
             }
         }
     },
