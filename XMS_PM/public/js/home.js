@@ -37,13 +37,12 @@ function requestData24h()
                     });
                     pieinfo.push({
                         'name': value._id,
-                        'y':sum
+                        'y':sum,
+                        'color': point.channel_color[value._id]
                     }) 
                     data.sort(function(a, b) {
                         return a[0] - b[0];
                       });
-
-                    console.log(data)
 
                     chart24h.addSeries({'name': name, 'data': data, 'type': 'column', 'color': point.channel_color[name]})
                 }
@@ -105,10 +104,12 @@ chart24h = new Highcharts.Chart({
                         });
                         pieinfo.push({
                             'name': value._id,
-                            'y':sum
+                            'y':sum,
+                            'color': piedata.channel_color[value._id]
                         })     
                     }
                 });
+                console.log(pieinfo)
                 this.series[0].update({data:pieinfo}, true);
             }
         }
@@ -149,7 +150,8 @@ chart24h = new Highcharts.Chart({
                             });
                             pieinfo.push({
                                 'name': value._id,
-                                'y':sum
+                                'y':sum,
+                                'color': piedata.channel_color[value._id]
                             })     
                         }
                     });
