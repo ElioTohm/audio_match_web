@@ -30,7 +30,7 @@ function requestData24h()
                     _.forEach(value.watched_per_ts, function(count) {
                         var counter = count.counter
                         sum = sum + counter
-                        data.push([count.timestamp * 1000,counter])
+                        data.push([count.timestamp * 1000, counter])
                     });
                     pieinfo.push({
                         'name': value._id,
