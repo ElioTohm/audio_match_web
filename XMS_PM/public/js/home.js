@@ -21,9 +21,9 @@ function requestData24h()
             // //transform object to array
             pieinfo = []
             barinfo = []
-            console.log(point.channel_color)
             _.forEach(point, function(value, index) {
-                if (index != 'channel_name') {
+                console.log(index)
+                    if (index != "channel_color") {
                     var name = ''
                     var sum = 0
                     var data = []
@@ -113,7 +113,6 @@ chart24h = new Highcharts.Chart({
                         invisible.splice(index, 1);
                     }
                     
-                    console.log(invisible)    
                    updatepie();
                 }
             },
