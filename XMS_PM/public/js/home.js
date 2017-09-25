@@ -30,12 +30,13 @@ function requestData24h()
                     _.forEach(value.watched_per_ts, function(count) {
                         var counter = count.counter
                         sum = sum + counter
-                        data.push(counter)
+                        data.push([count.timestamp,counter])
                     });
                     pieinfo.push({
                         'name': value._id,
                         'y':sum
                     }) 
+                    console.log(data)
                     chart24h.addSeries({'name': name, 'data': data, 'type': 'column'})
                 }
             });
