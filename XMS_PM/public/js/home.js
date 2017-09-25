@@ -41,90 +41,6 @@ function requestData24h()
                 }
             });
               
-            // for (var i in point) {
-            //     var name = ''
-            //     var sum = 0
-            //     var data = []
-
-            //     name = point[i]._id
-
-            //     for (var y in point[i].watched_per_ts) {
-            //         localStorage.setItem(point[i]._id, JSON.stringify(point[i]));
-            //         var counter = point[i].watched_per_ts[y].counter
-            //         sum = sum + counter
-            //         data.push(counter)
-            //     }
-            //     pieinfo[i] = {
-            //         'name': point[i]._id,
-            //         'y':sum
-            //     } 
-            //     chart24h.addSeries({'name': name, 'data': data, 'type': 'column'})
-            // }
-
-            // // filter info to get channel watched by time within time interval
-            // var watchedbytime = _(point).groupBy('channel_name')
-            //                             .map(function(item, itemId) {
-            //                                 var obj = {};
-            //                                 obj[itemId] = _.countBy(item, 'timestamp');
-            //                                 return obj;
-            //                             }).valueOf();
-
-            // for(var key in watchedbytime) {
-
-            //     charttimestampinfo = [];
-            //     for(var channel in watchedbytime[key]) {
-            //         for(var timetags in watchedbytime[key][channel]) {
-            //             charttimestampinfo.push([ timetags*1000, watchedbytime[key][channel][timetags] ]);
-            //         }
-            //         if (Object.keys(watchedbytime[key])[0] == 'MBCAction') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#faaa00'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC1') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#a702b1'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC2') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#25e200'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC3') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#e20000'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'MBC4') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#9370DB'
-            //             });
-            //         } else if (Object.keys(watchedbytime[key])[0] == 'Other') {
-            //             chart24h.addSeries({
-            //                 name: Object.keys(watchedbytime[key])[0],
-            //                 data: charttimestampinfo,
-            //                 type: 'column',
-            //                 color: '#730028'
-            //             });
-            //         }
-            //     }
-            // }
-
-            // //save current fetched data
-            // fetched_data = point;
-            // current_data = point;
 
             // // add array to series data
             chart24h.series[0].setData(pieinfo, true);
@@ -146,6 +62,9 @@ chart24h = new Highcharts.Chart({
      tooltip: {
         shared: true,
         crosshairs: true
+    },
+    boost: {
+        useGPUTranslations: true
     },
     chart: {
         renderTo: 'graph24h',

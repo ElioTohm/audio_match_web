@@ -16,5 +16,6 @@
 </div>
 
 <script src="{{url('/js/lodash.min.js')}}"></script>
+<script src="https://code.highcharts.com/modules/boost.js"></script>
 <script src="{{url('/js/home.js')}}"></script>
 @endsection
