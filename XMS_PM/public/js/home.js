@@ -84,7 +84,6 @@ chart24h = new Highcharts.Chart({
                 } else {
                     lowerbound = null
                     upperbound = null
-                    console.log(lowerbound)
                 }
              
                 updatepie();
@@ -174,7 +173,6 @@ function updatepie() {
 
             _.forEach(value.watched_per_ts, function(count) {
                 if(lowerbound != null){
-                    console.log(lowerbound)
                     if ((count.timestamp >= lowerbound) &&  (count.timestamp <= upperbound)) {
                         sum = sum + count.counter
                     }
