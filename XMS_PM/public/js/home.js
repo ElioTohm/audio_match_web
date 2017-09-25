@@ -1,5 +1,7 @@
 // global
 var chart24h;
+var upperbound = null;
+var lowerbound = null;
 
 localStorage.clear()
 
@@ -78,21 +80,22 @@ chart24h = new Highcharts.Chart({
             selection: function(event) {
                 var piedata = JSON.parse(localStorage.getItem('point'));
                 var pieinfo = []
-                if(event.xAxis != null) {
-
-                }
+                
                 _.forEach(piedata, function(value, index) {
                     if (index != 'channel_name') {
                         var sum = 0
-        
                         name = value._id
         
                         _.forEach(value.watched_per_ts, function(count) {
                             if(event.xAxis != null){
-                                if ((count.timestamp >= event.xAxis[0].min/1000) &&  (count.timestamp <= event.xAxis[0].max/1000)) {
+                                lowerbound = event.xAxis[0].min/1000
+                                upperbound = event.xAxis[0].max/1000
+                                
+                                if ((count.timestamp >= lowerbound) &&  (count.timestamp <= upperbound)) {
                                     sum = sum + count.counter
                                 }
                             } else {
+                                lowerbound, upperbound = null
                                 sum = sum + count.counter
                             }
                             
@@ -115,24 +118,42 @@ chart24h = new Highcharts.Chart({
         tickmarkPlacement: 'on',
         type: 'datetime'
     },
-    plotOptions: {
-        series: {
-            events: {
-                // legendItemClick: function (e) {
-                //     selectchannelname =  this.name;
-                //     if (this.visible) {
-                //         hiddenchannels.push(selectchannelname);
-                //     } else{
-                //         var index = hiddenchannels.indexOf(selectchannelname);
-                //         hiddenchannels.splice(index, 1);
-                //     }
+    // plotOptions: {
+        // series: {
+        //     events: {
+        //         legendItemClick: function (e) {
+        //             var chart = this.chart,
+        //             index = this.index;
+        //             var piedata = JSON.parse(localStorage.getItem('point'));
+        //             var pieinfo = []
+        //             var visible = []
+        //             $.each(chart.series,function(i,serie){
+        //                 if(serie.visible)
+        //                 {
+        //                     visible.push(serie.name)
+        //                     }
+        //             });
+                        
+        //             _.forEach(piedata, function(value, index) {
+        //                 if ((index != 'channel_name') && ($.inArray(value._id, visible) != -1 )) {
+        //                     var sum = 0
+        //                     name = value._id
+            
+        //                     _.forEach(value.watched_per_ts, function(count) {
+        //                         sum = sum + count.counter
+        //                     });
+        //                     pieinfo.push({
+        //                         'name': value._id,
+        //                         'y':sum
+        //                     })     
+        //                 }
+        //             });
+        //             chart24h.series[0].update({data:pieinfo}, true);
 
-                //     channelCountArray = drawpie(current_data);
-                //     chart24h.series[0].update({data:channelCountArray}, true);
-                // }
-            },
-        }
-    },
+        //         }
+        //     },
+        // }
+    // },
     series: [{
         type: 'pie',
         name: 'Records',
