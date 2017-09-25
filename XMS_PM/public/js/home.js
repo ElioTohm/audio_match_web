@@ -2,6 +2,7 @@
 var chart24h;
 var upperbound = null;
 var lowerbound = null;
+var invisible = []
 
 localStorage.clear()
 
@@ -118,42 +119,41 @@ chart24h = new Highcharts.Chart({
         tickmarkPlacement: 'on',
         type: 'datetime'
     },
-    // plotOptions: {
-        // series: {
-        //     events: {
-        //         legendItemClick: function (e) {
-        //             var chart = this.chart,
-        //             index = this.index;
-        //             var piedata = JSON.parse(localStorage.getItem('point'));
-        //             var pieinfo = []
-        //             var visible = []
-        //             $.each(chart.series,function(i,serie){
-        //                 if(serie.visible)
-        //                 {
-        //                     visible.push(serie.name)
-        //                     }
-        //             });
+    plotOptions: {
+        series: {
+            events: {
+                legendItemClick: function (e) {
+                    var chart = this.chart,
+                    index = this.index;
+                    var piedata = JSON.parse(localStorage.getItem('point'));
+                    var pieinfo = []
+                    
+                    console.log(e)
+                    
+                    console.log(invisible)    
+                    _.forEach(piedata, function(value, index) {
+                        console.log(!_.includes(invisible, value._id))
                         
-        //             _.forEach(piedata, function(value, index) {
-        //                 if ((index != 'channel_name') && ($.inArray(value._id, visible) != -1 )) {
-        //                     var sum = 0
-        //                     name = value._id
-            
-        //                     _.forEach(value.watched_per_ts, function(count) {
-        //                         sum = sum + count.counter
-        //                     });
-        //                     pieinfo.push({
-        //                         'name': value._id,
-        //                         'y':sum
-        //                     })     
-        //                 }
-        //             });
-        //             chart24h.series[0].update({data:pieinfo}, true);
+                        if ((index != 'channel_name') && (!_.includes(invisible, value._id))) {
+                            var sum = 0
+                            name = value._id
+                            
+                            
+                            _.forEach(value.watched_per_ts, function(count) {
+                                sum = sum + count.counter
+                            });
+                            pieinfo.push({
+                                'name': value._id,
+                                'y':sum
+                            })     
+                        }
+                    });
+                    chart24h.series[0].update({data:pieinfo}, true);
 
-        //         }
-        //     },
-        // }
-    // },
+                }
+            },
+        }
+    },
     series: [{
         type: 'pie',
         name: 'Records',
