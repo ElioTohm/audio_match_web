@@ -86,7 +86,7 @@ class HomeController extends Controller
                 )
             ),
             array(
-                '$sort'=> array('watched_per_ts.channel_name'=> 1)
+                '$sort'=> array('watched_per_ts.timestamp'=> 1)
             ),
         );
 
