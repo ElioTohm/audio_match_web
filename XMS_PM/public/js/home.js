@@ -22,7 +22,6 @@ function requestData24h()
             pieinfo = []
             barinfo = []
             _.forEach(point, function(value, index) {
-                console.log(index)
                     if (index != "channel_color") {
                     var name = ''
                     var sum = 0
@@ -79,12 +78,13 @@ chart24h = new Highcharts.Chart({
         events: {
             load: requestData24h,
             selection: function(event) {
-                
-                if(event.xAxis != null){
+                if(typeof event.xAxis !== 'undefined'){
                     lowerbound = event.xAxis[0].min/1000
                     upperbound = event.xAxis[0].max/1000
                 } else {
-                    lowerbound, upperbound = null
+                    lowerbound = null
+                    upperbound = null
+                    console.log(lowerbound)
                 }
              
                 updatepie();
@@ -174,6 +174,7 @@ function updatepie() {
 
             _.forEach(value.watched_per_ts, function(count) {
                 if(lowerbound != null){
+                    console.log(lowerbound)
                     if ((count.timestamp >= lowerbound) &&  (count.timestamp <= upperbound)) {
                         sum = sum + count.counter
                     }
