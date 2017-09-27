@@ -18,7 +18,7 @@ $('#submit_time').click(function () {
         {
             console.log(data);
 
-            $('tbody').html("");
+            // $('table').html("");
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < data[i].clients.length; j++) {
                     var time = data[i].clients[j].timestamp * 30 ;
@@ -27,9 +27,10 @@ $('#submit_time').click(function () {
                     var seconds = time - minutes * 60 - hours * 3600;
                     
                     var element = "<tr><td>"+data[i]._id.channel_name+"</td><td>"+data[i].clients[j].client_id+"</td><td>"+hours+"</td><td>"+minutes+"</td><td>"+seconds+"</td></tr>";
-                    $('tbody').append(element);
                 }
+                $('table').append("<tbody>" + element + "</tbody>");
             }
+            
         },
         error:function (error)
         {
