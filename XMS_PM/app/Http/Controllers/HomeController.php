@@ -96,9 +96,7 @@ class HomeController extends Controller
             return $collection->aggregate($condition);
         });
         
-        $result['channel_color'] = ['MBCAction'=>'#faaa00', 'MBC1'=>'#a702b1', 
-                                    'MBC2'=>'#25e200','MBC3'=>'#e20000',
-                                    'MBC4'=>'#9370DB',  'Other'=>'#730028'];
+        $result['channel_color'] = Record::$COLOR_ARRAY;
         
         return $result;
     }
