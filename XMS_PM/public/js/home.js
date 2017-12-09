@@ -131,6 +131,9 @@ chart24h = new Highcharts.Chart({
         size: 100,
     }],
 });
+chart24h.setOptions({
+    timezone: "Europe/Oslo"
+});
 chart24h.showLoading('Loading...');
 
 
